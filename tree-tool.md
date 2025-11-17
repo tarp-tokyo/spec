@@ -105,3 +105,161 @@ JSON → LZString 圧縮 → Base64 → `?data=` パラメータ化。
 
 詳細：https://tools.tarp.tokyo/terms/
 
+
+
+# 🌲 Tree Tool — Structured Hierarchy Generator (TARP Tools)
+**Version: 2.0 (Defensive Publication Edition)**  
+**Initial Publication Date: 2025-11-17**  
+**Author: tarp.tokyo**
+
+---
+
+## 1. Overview
+Tree Tool is a browser-based GUI application that generates, visualizes, and edits hierarchical structures such as folder trees, site maps, and logic trees.
+
+It is built with React (Vite) and Tailwind CSS, running entirely on the client side without server dependencies.
+
+This document provides a complete technical specification of the Tree Tool, including its data structures, UI behavior, internal logic, and algorithms.  
+Its purpose is to serve as a **Defensive Publication**, establishing prior art and preventing unauthorized patent claims by third parties.
+
+---
+
+## 2. Core Features
+- Text input → automatic hierarchy generation  
+- Drag & Drop node rearrangement  
+- Collapse / Expand toggles  
+- Clean JSON export  
+- URL sharing using LZ compression  
+- Responsive layout  
+- Logic View powered by React Flow  
+- Folder / ZIP drag‑and‑drop parsing (v2.5)  
+- Scales up to 3000–5000 nodes for large structures  
+
+---
+
+## 3. Internal Data Structure
+```json
+{
+  "id": "uuid",
+  "name": "string",
+  "children": [
+    { "id": "...", "name": "...", "children": [...] }
+  ]
+}
+```
+
+### Characteristics
+- Recursive, uniform node structure  
+- All nodes share the same schema (ROOT included)  
+- `children` is always an array  
+- Moving a node = remove from old parent → insert into new parent  
+
+This structure is simple yet powerful, enabling fast rendering and reliable manipulation.
+
+---
+
+## 4. Collapse Logic
+Tree Tool does **not** store a `collapsed` flag in each node.  
+Instead, visibility is determined during rendering.
+
+### Reason
+Avoids state bloat and improves performance in large trees by using **lazy evaluation**.
+
+---
+
+## 5. Drag & Drop System
+Based on the native HTML5 Drag & Drop API.
+
+### Event Flow
+1. `dragstart`: embed `node.id` into the transfer data  
+2. `drop`:  
+   - Remove node from its original parent’s `children`  
+   - Insert node into new parent’s `children`  
+   - Trigger rerender  
+
+This ensures minimal state mutation and predictable behavior.
+
+---
+
+## 6. Logic View (React Flow)
+Logic View represents the tree in a top‑down MECE‑style logic map.
+
+### Features
+- Automatic layout  
+- Parent → child edges  
+- Zoom and pan support  
+- Custom node types (via `nodeTypes`)  
+
+This view transforms folder trees into structured logical diagrams suitable for planning and presentations.
+
+---
+
+## 7. URL Sharing (LZ Compression)
+JSON data is transformed via:
+
+1. Serialize JSON  
+2. LZString compression  
+3. Base64 encoding  
+4. Embedded into `?data=` parameter  
+
+This allows long hierarchical data to be shared in a single URL.
+
+---
+
+## 8. Folder / ZIP Parsing (v2.5)
+### Folder D&D
+- Uses FileSystem API to read directories recursively  
+
+### ZIP D&D
+- Uses JSZip to extract paths  
+
+### Path Processing
+Each file path is split by `/` and inserted into the recursive data structure, reproducing the folder tree automatically.
+
+---
+
+## 9. Large‑Scale Performance Optimizations
+Tree Tool supports several thousand nodes through:
+
+- Virtualized rendering strategies  
+- Lazy rendering for collapsed branches  
+- Efficient keyed diffing  
+- Minimal DOM updates  
+
+This enables smooth usage even with massive codebases or website structures.
+
+---
+
+## 10. Use Cases
+- Website architecture planning  
+- React/Next.js project folder design  
+- Logic tree / MECE breakdowns  
+- Repository analysis  
+- Structured planning for documents and presentations  
+
+---
+
+## 11. License & Rights
+The Tree Tool and its associated specifications are protected under the **TARP Tools License**.  
+Unauthorized redistribution, commercial usage, publication of modified derivatives, and reverse engineering are prohibited.
+
+Full policy: https://tools.tarp.tokyo/terms/
+
+---
+
+## 12. Purpose of This Document (Defensive Publication)
+This English document ensures the Tree Tool’s technical concepts qualify as **prior art**,  
+preventing third parties from claiming patents on identical or derivative mechanisms.
+
+By publishing this at a verifiable timestamp on GitHub, tarp.tokyo legally establishes:
+
+- Authorship  
+- Public availability  
+- Originality  
+- Prior existence  
+
+This protects Tree Tool globally under USPTO, JPO, and EPO requirements for prior art.
+
+---
+
+End of Document.

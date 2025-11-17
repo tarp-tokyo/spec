@@ -21,9 +21,9 @@ React（Vite）＋ Tailwind CSS をベースとし、完全クライアントサ
 - JSON 出力（クリーン JSON）
 - URL 共有（LZ圧縮）
 - レスポンシブ対応
-- Logic View（React Flow）表示
+- Logic View（React Flow）表示（v2）
 - ZIP / フォルダドラッグ＆ドロップ解析（v2.5）
-- 大規模ツリー（3000〜5000ファイル）対応
+- 大規模ツリー（3000〜5000ファイル）対応（v2）
 
 ---
 
@@ -131,9 +131,9 @@ Its purpose is to serve as a **Defensive Publication**, establishing prior art a
 - Clean JSON export  
 - URL sharing using LZ compression  
 - Responsive layout  
-- Logic View powered by React Flow  
+- Logic View powered by React Flow（v2）  
 - Folder / ZIP drag‑and‑drop parsing (v2.5)  
-- Scales up to 3000–5000 nodes for large structures  
+- Scales up to 3000–5000 nodes for large structures（v2）  
 
 ---
 

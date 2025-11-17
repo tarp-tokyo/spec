@@ -63,7 +63,7 @@ HTML5 Drag and Drop API で構築。
 
 ---
 
-## 6. Logic View（React Flow）
+## 6. Logic View（React Flow）（v2）
 - ノード位置は自動レイアウト  
 - edges = 親 → 子  
 - ズーム・パン  
@@ -83,7 +83,7 @@ JSON → LZString 圧縮 → Base64 → `?data=` パラメータ化。
 
 ---
 
-## 9. 大規模ツリー最適化
+## 9. 大規模ツリー最適化（v2）
 - Virtual DOM 最適化  
 - ノード遅延展開  
 - 最小レンダリング方式  
@@ -181,7 +181,7 @@ This ensures minimal state mutation and predictable behavior.
 
 ---
 
-## 6. Logic View (React Flow)
+## 6. Logic View (React Flow)（v2）
 Logic View represents the tree in a top‑down MECE‑style logic map.
 
 ### Features
@@ -218,7 +218,7 @@ Each file path is split by `/` and inserted into the recursive data structure, r
 
 ---
 
-## 9. Large‑Scale Performance Optimizations
+## 9. Large‑Scale Performance Optimizations（v2）
 Tree Tool supports several thousand nodes through:
 
 - Virtualized rendering strategies  

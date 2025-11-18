@@ -1,6 +1,6 @@
 # 漢字世界（Kanji the World）— 仕様書（防御公開版）
 **バージョン：1.0（MVP）**  
-**初回公開日：2025-11-18**  
+**初回公開日：2025-11-17**  
 **著者：tarp.tokyo**
 
 ---
@@ -8,8 +8,7 @@
 ## 1. 概要
 「漢字世界」は、漢字や言語を学習しながら冒険するブラウザベースの学習RPGです。  
 プレイヤーは“書き取り”によって文字を習得・育成し、漢字を味方につけて世界を旅します。  
-
-ゲームは Webブラウザ上で動作し、モバイル・PC 両対応。PWA対応でオフライン学習にも対応予定です。
+Webブラウザ（PWA）上で動作し、オフライン利用にも対応します。
 
 ---
 
@@ -17,22 +16,22 @@
 - Canvas 上での漢字手書き入力（マウス・指・ペン対応）
 - 書き取りによる「LP（ラーニングポイント）」獲得
 - 辞書への文字登録／育成ステータスの上昇（習熟度・熟練度）
-- 出現する漢字の捕獲・育成（進化は Ver.2以降に対応）
-- 辞書検索における手書き入力による補完
-- スマホ・PC対応の簡易バトルシステム（Ver.1は限定形式）
+- 漢字の捕獲・育成（進化は Ver.2以降）
+- 辞書検索における手書き入力
+- スマホ・PC対応の簡易バトル（Ver.1は限定仕様）
 
 ---
 
-## 3. 書き取り入力の仕様
-- 技術：HTML5 Canvas 上で stroke 情報を収集
-- デバイス：スマートフォン（指）、PC（マウス・タッチペン）
-- 文字認識処理：クライアントサイドでの stroke matching（後に精度向上予定）
-- 書き取り結果に応じて LP・習熟度・熟練度が上昇
-- 書き順・美しさ・スピードなどによる評価は Ver.2 以降
+## 3. 書き取り入力仕様
+- 技術：HTML5 Canvas 上で stroke 情報を取得
+- 入力：指・マウス・タッチペン
+- データ：座標・順序・時刻などを記録
+- 認識：クライアントサイド処理
+- 評価：書き順・速度・形状（Ver.2以降）
 
 ---
 
-## 4. データ構造（簡易）
+## 4. データ構造（例）
 ```json
 {
   "kanji": "漢",
@@ -47,72 +46,89 @@
 ---
 
 ## 5. ステータスと進化
-- 各漢字にはステータス（熟練度・習熟度・LP）が存在
-- 特定条件を満たすと進化（例：「一」→「十」→「百」などの特別系統）
-- ストーリー上重要な「進化条件」は GitHub仕様書では非公開とする
+- 各漢字は LP・熟練度・習熟度を保持
+- 条件達成で進化（例：「一」→「十」→「百」など）
+- 進化条件や演出は仕様書では非公開（Ver.2以降）
 
 ---
 
-## 6. 世界観・構成
-- 世界には「白」「赤」「青」「緑」「黒」などのエリアがあり、それぞれに対応する漢字が出現
-- 東西南北＋色名で構成される各村や図書館などで、学習・回復・収集を行う
-- ストーリー詳細・エンディング演出は伏せるが、教育×冒険が融合した世界観
+## 6. 世界観
+- 「白」「赤」「青」「緑」「黒」の色エリア＋東西南北で構成
+- 図書館での記録・回復・辞書登録など
+- ストーリー・エンディングは未記載（ユーザー発見型構成）
 
 ---
 
-## 7. 将来のバージョン構想
-- Ver.2：キャラクター進化、辞書分岐進化、ストーリー拡張、辞書UI強化
-- Ver.3：オンライン対戦／協力（マルチプレイ）、レイド戦、ランキングシステム
-- 教育アプリとしての展開（読み上げ／筆順強調／他言語対応）
+## 7. 将来バージョン計画
+- Ver.2：進化・分岐育成・図書館強化・手書きUI強化
+- Ver.3：マルチプレイ・ランキング・協力イベント
+- 教育展開：筆順／音声読み上げ／多言語UI
 
 ---
 
-## 8. 他社製品との関係について
-- 任天堂DSソフト『漢検DS』や『美文字トレーニング』等に見られる手書き認識ゲームは存在するが、本プロジェクトは HTML5 Canvas による完全Web実装であり、既存の操作体系・UI・認識エンジンを流用していない。
-- ゲームタイトルの記載は歴史的背景・比較目的であり、商標使用意図は一切ありません。
+## 8. 筆跡署名と改ざん防止構造（Ver.1より導入）
+本プロジェクトでは、書き取り動作で生成されるストロークデータ（座標・順序・時刻）に対し：
+
+- プレイヤーの UUID を紐付け  
+- ストローク配列に対して SHA-256 署名を付加  
+
+することで、以下のような真正性を保証します：
+
+- 書いた本人の特定（匿名UUID）  
+- 改ざんの検出  
+- 辞書登録・熟練度履歴の正当性確認  
+- PWA環境でも、後のクラウド同期時に真正性を検証可能
+
+この構造により、教育ログの信頼性・ランキングの公平性・チート対策が強化されます。
 
 ---
 
-## 9. 知的財産・ライセンス
-- 本仕様書および『漢字世界』に関する設計・アイデア・実装方針は **TARP Tools License** に基づき提供されます。
-- 商用利用・複製・類似ゲーム制作・再配布・逆コンパイルなどは禁止されます。
-- https://tools.tarp.tokyo/terms/ にてライセンス詳細を確認できます。
+## 9. 他社製品との比較
+- 任天堂DSの『漢検DS』『美文字トレーニング』等とは異なり、HTML5技術に基づいた完全Web構成。
+- UI・操作系・認識ロジックはすべて独自実装。
+- ゲームタイトルは比較目的の言及であり、商標使用意図はありません。
+
+---
+
+## 10. ライセンスと知的財産
+本仕様書および Kanji the World は **TARP Tools License** の下で保護されます。  
+無断複製・改変・再配布・逆コンパイルは禁止されます。  
+https://tools.tarp.tokyo/terms/
 
 ---
 
 # Kanji the World — Specification (English Version)
 **Version: 1.0 (MVP)**  
-**Initial Publication Date: 2025-11-18**  
+**Initial Publication: 2025-11-17**  
 **Author: tarp.tokyo**
 
 ---
 
 ## 1. Overview
-Kanji the World is a browser-based educational RPG that blends handwriting practice with exploration and character growth.  
-Players write characters on-screen to learn, master, and evolve them, journeying through a world powered by language.
+Kanji the World is a browser-based learning RPG that combines handwriting practice and character growth.  
+Players write kanji to learn and master them, journeying through themed regions. Offline-ready via PWA.
 
 ---
 
 ## 2. Core Features (MVP)
-- Handwriting recognition on HTML5 Canvas (mouse, finger, stylus)
-- Earn LP (Learning Points) through writing
-- Register kanji to a dictionary and increase mastery/familiarity
-- Basic turn-based battles featuring kanji characters
-- Handwriting-based dictionary lookup
-- Available on mobile and desktop
+- HTML5 Canvas handwriting (mouse, finger, stylus)
+- Earn LP (Learning Points) from strokes
+- Register kanji to dictionary with stats (mastery/familiarity)
+- Capture & train kanji characters (evolution in v2)
+- Handwriting search
+- Simple mobile-friendly battle system
 
 ---
 
-## 3. Handwriting System
-- Canvas-based stroke collection
-- Smart recognition logic (browser-side)
-- Input devices: finger, mouse, stylus
-- LP/familiarity increase based on recognition results
-- Evaluation by order/speed/accuracy: planned for Ver.2+
+## 3. Writing Input System
+- Canvas collects coordinates, order, and timestamp
+- Devices: touch, mouse, stylus
+- Stroke recognition is local (browser-side)
+- Future: order/speed/shape-based scoring
 
 ---
 
-## 4. Data Model
+## 4. Data Model (example)
 ```json
 {
   "kanji": "漢",
@@ -127,34 +143,51 @@ Players write characters on-screen to learn, master, and evolve them, journeying
 ---
 
 ## 5. Stats and Evolution
-- Each kanji has mastery/familiarity/LP
-- Evolution is possible based on criteria (e.g. 「一」→「十」→「百」…)
-- Exact evolution conditions are intentionally omitted to avoid spoilers
+- Each kanji tracks LP, mastery, familiarity
+- Evolves by rules (e.g. 一 → 十 → 百)
+- Conditions hidden in spec (to avoid spoilers)
 
 ---
 
-## 6. World Setting
-- The world is divided into color-coded regions (White, Red, Blue, Green, Black)
-- Each area features a library, village, or elemental theme
-- Story and ending are intentionally withheld (narrative surprises planned)
+## 6. World Structure
+- Five regions: White, Red, Blue, Green, Black × NESW directions
+- Libraries offer save, recover, register
+- Story intentionally excluded from spec
 
 ---
 
-## 7. Future Versions
-- Ver.2: Kanji evolution branches, story expansion, advanced UI
-- Ver.3: Multiplayer modes, raids, ranking, educational test mode
-- Educational expansion (stroke guides, multilingual training, audio)
+## 7. Future Plans
+- v2: evolution trees, enhanced UI, library features
+- v3: multiplayer, raid events, ranking
+- Educational extensions: stroke order, audio, multilingual UI
 
 ---
 
-## 8. Related Games
-- Games like “漢検DS” and “美文字トレーニング” (Nintendo DS) previously used handwriting for learning
-- Kanji the World is a **fully browser-native system using HTML5 Canvas**, not based on those interfaces or engines.
-- Titles are mentioned for historical comparison purposes only.
+## 8. Stroke Signature & Integrity Proof (from Ver.1)
+Each stroke (position, time, order) is:
+
+- Linked to the player’s UUID  
+- Signed via SHA-256 hash  
+
+This allows:
+
+- Identity binding of who wrote it  
+- Tamper detection  
+- Validity of dictionary and stat registration  
+- Offline-first, cloud-verifiable input tracking
+
+This ensures fairness, anti-cheating, and trusted learning logs.
 
 ---
 
-## 9. License / Intellectual Property
-This document and the project “Kanji the World” are protected under the **TARP Tools License**.  
-No redistribution, reverse engineering, commercial replication, or derivative publishing is allowed.  
-See: https://tools.tarp.tokyo/terms/ for license details.
+## 9. Game Comparison
+- Mentioned DS titles like “漢検DS” are touch-input based but differ in tech/UI
+- This is a pure HTML5 implementation
+- Trademarks referenced for historical comparison only
+
+---
+
+## 10. License & IP
+This spec and the Kanji the World project are protected by the **TARP Tools License**.  
+No unauthorized copying, republishing, tampering or derivation allowed.  
+https://tools.tarp.tokyo/terms/

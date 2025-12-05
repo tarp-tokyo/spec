@@ -1,90 +1,205 @@
-# Liner Tool — Specification (Patent Defense Draft)
+# ✅ **Liner Tool — Specification (Patent Defense Draft, Revised Edition)**
 
-Version: 1.0 (Defensive Publication Edition)  
-Initial Publication Date: 2025-12-05  
-Author: tarp.tokyo
+Version: 1.1 (Defensive Publication Edition)
+Initial Publication Date: 2025-12-05
+Updated: 2025-12-06
+Author: **tarp.tokyo**
 
 ---
 
-## 1. Overview
-Liner Tool is a browser-based, print-optimized layout generator capable of producing high‑precision ruled paper, grids, dot sheets, manuscript paper, calendar layouts, and composite printable designs using an SVG-first architecture. This specification serves as a prior‑art declaration preventing third parties from claiming exclusive patent rights over underlying concepts, algorithms, and UI/UX methodologies.
+# 1. Overview
 
-## 2. Core Principles
-- 100% browser‑based, no server required.
-- SVG is the primary render engine for millimeter-accurate print outputs.
-- Print‑CSS combined with SVG scaling logic eliminates shrinkage and printer distortion.
-- Modular “Layer Architecture” allows stacking unlimited functional components.
-- UX prioritizes clarity: no ads, optional logo suppression, instant preview.
+**Liner Tool** is a browser-based, print-optimized layout generator capable of producing high-precision ruled paper, grids, dot sheets, manuscript paper, planner layouts, calendars, and composite printable designs.
 
-## 3. Layer Architecture
-Each printable element is represented as a **Layer Object**:
+Its rendering system employs a **hybrid procedural architecture** that integrates:
+
+* **Canvas-based raster pattern generation** (primary engine)
+* **On-demand SVG generation** (optional, for vector export)
+* **CSS background-layer composition**
+* **mm-precise geometric computation**
+
+This hybrid model enables **millimeter-accurate output**, consistent across:
+
+* Browser print engines (Chrome / Edge / Safari)
+* PDF export
+* Different device pixel ratios
+* High-resolution printers
+
+This document is a **public defensive publication (prior-art declaration)**, establishing an incontestable timestamp and preventing third parties from obtaining exclusive patent rights on the underlying techniques, algorithms, and UI/UX methodologies.
+
+### Protected scope includes (but is not limited to):
+
+* Browser-based mm-precision grid / ruled-line rendering
+* Canvas procedural drawing for print media
+* Multi-layer, composable print layout architecture
+* URL-encoded print states enabling reproducible templates
+* Zero-margin single-page print enforcement
+* A4/A5/B5 portrait・landscape・split-sheet engines
+* Fully customizable pitch / line weight / density / colors
+* K100（pure black）print-mode rendering
+* High-precision layer stacking for composite designs
+
+This specification defines the concepts as **publicly available prior-art**, establishing that these ideas, algorithms, and implementations cannot be patented by any external party.
+
+---
+
+# 2. Core Principles
+
+* Fully browser-based operation (no server required).
+* **Canvas-first rendering pipeline** for print accuracy.
+* SVG generation is optional and modular (not the primary render path).
+* Print-CSS is used only as an enforcement layer—not as a rendering engine.
+* Modular “Layer Architecture” allows unlimited stacking of drawable components.
+* Clean UX: zero ads, optional logo suppression, instant preview.
+
+---
+
+# 3. Layer Architecture
+
+Each printable component is represented as a **Layer Object**:
+
 ```
 {
   id: string,
-  type: "rule" | "grid" | "dot" | "calendar" | "manuscript" | "frame" | "text" | "custom",
+  type: "rule" | "grid" | "dot" | "calendar" | "manuscript" |
+        "frame" | "text" | "custom",
   params: { ... },
   zIndex: number,
   visible: boolean
 }
 ```
 
-Supported layers include:
-- **Ruled Lines** (horizontal/vertical, pitch, thickness, color)
-- **Grid (方眼)** (mm pitch configurable)
-- **Dot Grid**
-- **Calendar Modules** (monthly, weekly, yearly, custom-period)
-- **Manuscript Paper (原稿用紙)** with cell count, cell size, V/H writing
-- **Frames / Titles**
-- **Perforation / Punch Guides**
-- **Custom SVG or Text Blocks**
+Supported layer types include:
 
-## 4. SVG Rendering Model
-All layers convert into an SVG root canvas:
+* **Ruled Lines**（横罫・縦罫）
+* **Grid (方眼)** — arbitrary mm pitch
+* **Dot Grid**
+* **Calendar Modules**
+* **Manuscript Paper（原稿用紙）**
+* **Frames / Titles / Guides**
+* **Perforation / Punch Guides**
+* **Custom Canvas/SVG blocks**
+
+Layers can be arbitrarily stacked; rendering order is determined by `zIndex`.
+
+---
+
+# 4. Rendering Engine (Hybrid Model)
+
+The rendering model is **no longer SVG-first**.
+Instead:
+
+### 4.1 Canvas Procedural Generator（Primary）
+
+The core drawable patterns—such as:
+
+* mm-grid
+* dot grid
+* ruled paper
+* thick/major lines
+* planner partitions
+* manuscript matrix
+
+are generated directly on `<canvas>` to avoid cumulative floating-point drift and browser shrinkage.
+
+Advantages:
+
+* Pixel-perfect mm alignment
+* Fast drawing speed
+* Deterministic repeat patterns
+* Stable PDF export behavior
+* Accurate scaling under browser print engines
+
+### 4.2 SVG Generator（Optional Layer）
+
+SVG is now **opt-in**, used only when:
+
+* Export as vector is requested
+* Text or frame decorations require it
+
+### 4.3 CSS Layer Composition
+
+Canvas → PNG (dataURL) is assigned into CSS backgrounds:
+
 ```
-<svg width="210mm" height="297mm" viewBox="0 0 W H"> …layers… </svg>
+background-image: url(data:image/png;base64,...)
+background-repeat: repeat / no-repeat
+background-size: <mm> <mm>
 ```
-Key features:
-- mm → px mapping: 1mm = 3.7795275591px.
-- Fractional pixel rounding for stable prints.
-- Automatic prevention of browser-side print shrinkage.
 
-## 5. Page Layout System
-### Supported sizes:
-- A4, A5, B5, Letter (future expansion)
-- A4 split mode (A5 × 2)
-- Portrait / Landscape
+This ensures:
 
-### Auto Layout Features:
-- Margin adjustments
-- Split boundaries
-- Double-sided margin mirroring (future)
+* Printer DPI doesn’t distort line spacing
+* Scaling occurs in mm units
+* Split-sheet layouts remain accurate
 
-## 6. Calendar Engine
-A programmable generator supporting:
-- Arbitrary start month
-- Arbitrary month count (academic year, 13‑month planners, fiscal calendars)
-- Automatic leap-year handling
-- Configurable grid and typography
-- Yearly block layouts (4×3, 3×4, 12‑column, etc.)
+---
 
-## 7. Manuscript Paper Engine (原稿用紙)
-Supports:
-- Vertical / Horizontal writing
-- Arbitrary rows × columns
-- Cell size control
-- Outer frame emphasis
-- Optional title/name boxes
-- Can blend with other layers (e.g. grid overlay)
+# 5. Page Layout System
 
-## 8. Layout Mode (D&D Editor)
-Interactive compositor in which each layer becomes a positioned object.
+### Supported Sizes
 
-Features:
-- Drag & drop movement
-- Resize handles
-- Snap-to-grid (mm-mounted grid)
-- Live outline during manipulation
-- JSON scene graph:
+* A4（P/L）
+* A5（P/L）
+* B5（P/L）
+* **A4 Split Mode（A5 × 2 等幅）**
+
+### Layout Parameters
+
+* Orientation (portrait / landscape)
+* Margins
+* Split boundaries
+* Center-gutter rendering
+* Double-sided variants（future）
+
+### mm-to-px Mapping
+
+* Canonical conversion:
+  `px = mm × (96 / 25.4)`
+* Rounding strategy avoids cumulative pitch drift.
+
+---
+
+# 6. Calendar Engine
+
+A programmable calendar generator:
+
+* Arbitrary start month
+* Arbitrary month count（academic year, fiscal year）
+* Leap-year computation
+* Weekly grid styles
+* Typography and box geometry control
+* 12-month block layouts（4×3、3×4、12-column）
+
+Calendars can stack with grids, ruled lines, and manuscript layers.
+
+---
+
+# 7. Manuscript Paper Engine（原稿用紙）
+
+Capabilities:
+
+* Horizontal or vertical writing
+* Arbitrary row × column counts
+* Cell size control（mm）
+* Outer frame emphasis
+* Optional title/name blocks
+* Blendable with other layers
+
+Rendered via Canvas for maximum geometric accuracy.
+
+---
+
+# 8. Layout Mode（Interactive Editor）
+
+The editor UI provides:
+
+* Drag-and-drop positioning
+* Resize handles
+* mm-based snap grid
+* Live outline feedback
+* JSON scene graph:
+
 ```
 {
   page: { size, orientation, margins },
@@ -92,54 +207,93 @@ Features:
 }
 ```
 
-Final print always re-renders via SVG using mm-accurate coordinates.
+### Rendering Consistency
 
-## 9. URL-Based Configuration Storage
-Scene state is encoded using compressed Base64:
+UI preview → print view
+Both re-render via Canvas to avoid mismatch.
+
+---
+
+# 9. URL-Based Configuration Storage
+
+Scene state is encoded into:
+
 ```
-?data=<LZ-compressed-base64>
+?data=<LZ-compressed-URI-component>
 ```
-Supports sharing of templates across browsers.
 
-## 10. Export & Print System
-### Print:
-- Print‑CSS enforces 100% scale
-- UI hidden on print
-- SVG-only output shown to printer
+Benefits:
 
-### Export:
-- SVG export (default)
-- PDF export (planned)
+* Full layout reproducibility
+* Template sharing
+* Cross-device portability
+* No server storage required
 
-## 11. UX Philosophy
-- No advertisements
-- tarp.tokyo branding toggle (on/off)
-- Mobile/desktop support
-- Print-safe palette
+---
 
-## 12. Novelty & Patent Defense Claims
-This document asserts prior public disclosure of the following novel elements:
+# 10. Export & Print System
 
-1. **Hybrid ruled/grid/manuscript/calendar SVG generator with stacked layers**
-2. **Arbitrary-period calendar generation (start month + month count)**
-3. **mm→px stable print engine resisting browser shrinkage**
-4. **Dual-mode architecture: HTML interactive editor → SVG print renderer**
-5. **A4 split → A5 twin-panel print layout engine**
-6. **Browser-only generation of professional refill sheets**
-7. **Unified engine for reflowing calendars, manuscript grids, and ruled layers**
+### Print
 
-These constitute unique functional/technical concepts forming clear prior art.
+* Print CSS enforces:
 
-## 13. License (TARP Tools License - Spec Draft)
-- Redistribution of engine logic prohibited.
-- Commercial replication of concepts/UI forbidden.
-- Personal non-commercial printing fully permitted.
-- Attribution optional when logo is disabled.
+  * UI hidden
+  * Zero margin
+  * Background prints enabled
+* Canvas-generated patterns ensure zero drift.
+* Print preview is 100% browser-based.
+* One-page enforcement logic prevents unwanted page breaks.
 
-The Liner Tool and its associated specifications are protected under the **TARP Tools License**.  
-Unauthorized redistribution, commercial usage, publication of modified derivatives, and reverse engineering are prohibited.
+### Export
 
-Full policy: https://tools.tarp.tokyo/terms/
+* PNG export
+* SVG export（optional / future enhancement）
+* PDF export（future module）
 
-## 14. Revision History
-- **2025-12-05**: Initial public disclosure.
+---
+
+# 11. UX Philosophy
+
+* Ad-free
+* Branding toggle（tarp.tokyo logo オン/オフ）
+* Mobile/desktop dual support
+* Printer-friendly color palette
+* K100（pure black output）mode
+
+---
+
+# 12. Novelty & Patent Defense Claims
+
+This document establishes prior art for the following novel concepts:
+
+1. **Browser-native mm-precision ruled/grid/manuscript/calendar generator using a Canvas-first procedural engine.**
+2. **Hybrid raster/vector rendering pipeline with layer composition.**
+3. **URL-encoded reproducible print layouts enabling template sharing.**
+4. **Zero-margin single-page print enforcement under browser print engines.**
+5. **A4 split-sheet (A5×2) rendering with precise center-gutter geometry.**
+6. **Professional refill-paper generation entirely in-browser（no server, no PDF pre-render）.**
+7. **Composable multi-layer architecture for mixing grids, calendars, ruled lines, manuscript forms, and decorative frames.**
+8. **K100 black-rendering mode for high-end print devices.**
+9. **Geometric rounding strategies preventing cumulative drift in mm→px conversion.**
+
+These technical concepts, algorithms, and UI patterns are hereby declared unpatentable by external actors due to prior public disclosure.
+
+---
+
+# 13. License（TARP Tools License — Spec Draft）
+
+* Redistribution of engine logic is prohibited.
+* Commercial replication of core concepts, algorithms, or UI is forbidden.
+* Personal non-commercial printing is allowed.
+* Attribution optional when branding is disabled.
+
+Full policy:
+**[https://tools.tarp.tokyo/terms/](https://tools.tarp.tokyo/terms/)**
+
+---
+
+# 14. Revision History
+
+* **2025-12-05** — Initial public disclosure (SVG-first version).
+* **2025-12-06** — Revised to reflect hybrid Canvas/SVG architecture and updated technical defense scope.
+

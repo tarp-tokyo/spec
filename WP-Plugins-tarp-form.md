@@ -1,6 +1,6 @@
 # TARP Form — WordPress Plugin Specification (v1.0)
 **File:** WP-Plugins-tarp-form.md  
-**Initial Publication:** 2025-12-05
+**Initial Publication:** 2025-12-05  
 **Project:** TARP Form  
 **License:** TARP Tools License  
 **Author:** TARP developer (tarp.tokyo)  
@@ -276,7 +276,7 @@ WordPress フォームの決定版となる設計である。**
 
 # TARP Form — WordPress Plugin Specification (v1.0)  
 **File:** WP-Plugins-tarp-form.md  
-**Initial Publication:** 2025-12-05
+**Initial Publication:** 2025-12-05  
 **Project:** TARP Form  
 **License:** TARP Tools License  
 **Author:** TARP developer (tarp.tokyo)  

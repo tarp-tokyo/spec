@@ -1,8 +1,8 @@
 # ✅ **Liner Tool — Specification (Patent Defense Draft, Revised Edition)**
 
-Version: 1.1 (Defensive Publication Edition)
-Initial Publication Date: 2025-12-05
-Updated: 2025-12-06
+Version: 1.1 (Defensive Publication Edition)  
+Initial Publication Date: 2025-12-05  
+Updated: 2025-12-05  
 Author: **tarp.tokyo**
 
 ---
@@ -295,5 +295,5 @@ Full policy:
 # 14. Revision History
 
 * **2025-12-05** — Initial public disclosure (SVG-first version).
-* **2025-12-06** — Revised to reflect hybrid Canvas/SVG architecture and updated technical defense scope.
+* **2025-12-05** — Revised to reflect hybrid Canvas/SVG architecture and updated technical defense scope.
 

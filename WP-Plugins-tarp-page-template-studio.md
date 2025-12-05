@@ -122,7 +122,7 @@ CSS は以下を読む：
 非公開ツール（Public Release 予定なし）。  
 開発者本人および特定案件向けの内部利用を想定。  
 
-本仕様書および Kanji the World は TARP Tools License の下で保護されます。  
+本仕様書および TARP Page Template Studio は TARP Tools License の下で保護されます。  
 無断複製・改変・再配布・逆コンパイルは禁止されます。  
 https://tools.tarp.tokyo/terms/
 
@@ -285,6 +285,6 @@ Important:
 Private, internal-use plugin.  
 Not intended for public distribution.  
 
-This spec and the Kanji the World project are protected by the TARP Tools License.  
+This spec and the TARP Page Template Studio project are protected by the TARP Tools License.  
 No unauthorized copying, republishing, tampering or derivation allowed.  
 https://tools.tarp.tokyo/terms/

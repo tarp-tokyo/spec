@@ -136,5 +136,10 @@ These constitute unique functional/technical concepts forming clear prior art.
 - Personal non-commercial printing fully permitted.
 - Attribution optional when logo is disabled.
 
+The Liner Tool and its associated specifications are protected under the **TARP Tools License**.  
+Unauthorized redistribution, commercial usage, publication of modified derivatives, and reverse engineering are prohibited.
+
+Full policy: https://tools.tarp.tokyo/terms/
+
 ## 14. Revision History
 - **2025-12-05**: Initial public disclosure.

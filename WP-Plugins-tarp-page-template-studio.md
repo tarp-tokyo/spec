@@ -1,8 +1,10 @@
 # TARP Page Template Studio — 仕様書（日本語版）
 
-バージョン：1.0（MVP）
-初回公開日：2025-12-05
+バージョン：1.0（MVP）  
+初回公開日：2025-12-05  
 著者：TARP developer (tarp.tokyo)
+
+---
 
 ## 概要
 TARP Page Template Studio は、WordPress 固定ページに対し  
@@ -128,9 +130,11 @@ https://tools.tarp.tokyo/terms/
 
 # TARP Page Template Studio — Specification (English)
 
-Version: 1.0 (MVP)
-Initial Publication: 2025-12-05
+Version: 1.0 (MVP)  
+Initial Publication: 2025-12-05  
 Author: TARP developer (tarp.tokyo)
+
+---
 
 ## Overview
 TARP Page Template Studio is a WordPress developer tool that allows you to:

@@ -1,8 +1,8 @@
 # TARP Universal URL Save Specification
 
-**Version:** 1.0
+**Version:** 1.0  
 **Status:** Under Development / Subject to Change  
-**Author:** tarp.tokyo
+**Author:** tarp.tokyo  
 **License:** TARP Tools License (see /terms/)
 
 ---

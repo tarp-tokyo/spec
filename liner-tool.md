@@ -1,6 +1,6 @@
 # ✅ **Liner Tool — Specification**
 
-Version: 2.1
+Version: 2.1  
 Initial Publication Date: 2025-12-05  
 Updated: 2025-12-08  
 Author: tarp.tokyo  

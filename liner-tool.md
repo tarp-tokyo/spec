@@ -1,299 +1,367 @@
-# ✅ **Liner Tool — Specification (Patent Defense Draft, Revised Edition)**
+# ✅ **Liner Tool — Specification**
 
-Version: 1.1 (Defensive Publication Edition)  
+Version: 2.1
 Initial Publication Date: 2025-12-05  
-Updated: 2025-12-05  
-Author: **tarp.tokyo**
+Updated: 2025-12-08  
+Author: tarp.tokyo  
+
+
+---
+
+# Liner Tool — Technical Specification  
+### Version 2.1 (Integrated Revision)  
+### tarp.tokyo — 2025  
+### License: TARP Tools License  
+https://tools.tarp.tokyo/terms/
+
+---
+
+# 0. Purpose of This Document
+
+This document defines the full technical specification of **Liner Tool v2.1**,  
+including all features implemented as of December 2025.  
+
+Version 2.1 supersedes:  
+
+- **v1.1** (initial SVG-based design)  
+- **v2.0** (full Canvas architecture / multi-page engine)  
+
+and introduces three major additions:  
+
+1. **Artboard Gutter Specification (page spacing)**  
+2. **DPI & Real-Scale Printing Technical Notes**  
+3. **Page Number Label UI Specification**
+
+This specification is formatted for:  
+
+- Public GitHub documentation  
+- Patent defensive publication  
+- Future development reference  
+- External technical review  
 
 ---
 
 # 1. Overview
 
-**Liner Tool** is a browser-based, print-optimized layout generator capable of producing high-precision ruled paper, grids, dot sheets, manuscript paper, planner layouts, calendars, and composite printable designs.
+Liner Tool is a **millimeter-precision print layout generator** running entirely in the browser.  
+It enables users to create notebook paper, ruled paper, grid paper, planner refills,  
+and multi-page printable layouts with professional accuracy.  
 
-Its rendering system employs a **hybrid procedural architecture** that integrates:
+Key characteristics:  
 
-* **Canvas-based raster pattern generation** (primary engine)
-* **On-demand SVG generation** (optional, for vector export)
-* **CSS background-layer composition**
-* **mm-precise geometric computation**
+- **Canvas-based rendering** with zero accumulated error  
+- **Multi-page artboard engine** similar to Illustrator/Figma  
+- **Independent page types** (grid, ruled, half layouts, calendars, etc.)  
+- **Real-scale printing** unaffected by browser DPI differences  
+- **Compressed URL save system** (LZString + Base64)  
+- **Drag-and-drop page ordering**  
+- **Beautiful stationery-inspired UI design**
 
-This hybrid model enables **millimeter-accurate output**, consistent across:
-
-* Browser print engines (Chrome / Edge / Safari)
-* PDF export
-* Different device pixel ratios
-* High-resolution printers
-
-This document is a **public defensive publication (prior-art declaration)**, establishing an incontestable timestamp and preventing third parties from obtaining exclusive patent rights on the underlying techniques, algorithms, and UI/UX methodologies.
-
-### Protected scope includes (but is not limited to):
-
-* Browser-based mm-precision grid / ruled-line rendering
-* Canvas procedural drawing for print media
-* Multi-layer, composable print layout architecture
-* URL-encoded print states enabling reproducible templates
-* Zero-margin single-page print enforcement
-* A4/A5/B5 portrait・landscape・split-sheet engines
-* Fully customizable pitch / line weight / density / colors
-* K100（pure black）print-mode rendering
-* High-precision layer stacking for composite designs
-
-This specification defines the concepts as **publicly available prior-art**, establishing that these ideas, algorithms, and implementations cannot be patented by any external party.
+This tool targets designers, notebook enthusiasts, students, engineers,  
+and creators who require *publisher-grade* print precision in a simple web interface.  
 
 ---
 
-# 2. Core Principles
-
-* Fully browser-based operation (no server required).
-* **Canvas-first rendering pipeline** for print accuracy.
-* SVG generation is optional and modular (not the primary render path).
-* Print-CSS is used only as an enforcement layer—not as a rendering engine.
-* Modular “Layer Architecture” allows unlimited stacking of drawable components.
-* Clean UX: zero ads, optional logo suppression, instant preview.
+# 2. Core Architecture
 
 ---
 
-# 3. Layer Architecture
+## 2.1 Canvas High-Precision Rendering Engine
 
-Each printable component is represented as a **Layer Object**:
+Liner Tool v2.x uses **100% Canvas-based rendering** (no SVG), providing:  
 
-```
-{
-  id: string,
-  type: "rule" | "grid" | "dot" | "calendar" | "manuscript" |
-        "frame" | "text" | "custom",
-  params: { ... },
-  zIndex: number,
-  visible: boolean
+- Exact physical sizes (A4, A5, B5, etc.)  
+- Millimeter-driven rendering (mm → px conversion)  
+- Ultra-sharp subpixel lines (0.5px possible)  
+- Zero browser-dependent distortion  
+- Predictable printing output  
+- Perfect consistency across platforms (Windows, macOS, iOS, Android)  
+
+### Patent-relevant points:
+- Real-scale printable layout generated entirely by Canvas  
+- Algorithm for subpixel grid/ruled-line rendering with mm-level precision  
+
+---
+
+## 2.2 Multi-Page Artboard Engine
+
+All pages are managed inside a `scene` object:  
+
+```js
+scene = {
+  version: 2,
+  pages: [
+    {
+      id: string,
+      type: "grid" | "ruled" | "calendar" | ...,
+      layout: "full" | "half-left" | "half-right",
+      settings: { ... }
+    }
+  ]
 }
-```
+````
 
-Supported layer types include:
+### Features:
 
-* **Ruled Lines**（横罫・縦罫）
-* **Grid (方眼)** — arbitrary mm pitch
-* **Dot Grid**
-* **Calendar Modules**
-* **Manuscript Paper（原稿用紙）**
-* **Frames / Titles / Guides**
-* **Perforation / Punch Guides**
-* **Custom Canvas/SVG blocks**
+* Multiple pages displayed visually on a unified Canvas  
+* Each page maintains its own type, settings, and layout  
+* Artboard-like editing experience (Illustrator/Figma style)  
+* Drag-and-drop reordering updates the printing order in real time  
+* Individual page selection syncs with the inspector UI  
 
-Layers can be arbitrarily stacked; rendering order is determined by `zIndex`.
+### Patent-relevant:
+
+**A browser-based multi-artboard layout engine whose order directly controls the print output sequence.**
 
 ---
 
-# 4. Rendering Engine (Hybrid Model)
+# 3. UI / UX Architecture
 
-The rendering model is **no longer SVG-first**.
-Instead:
+---
 
-### 4.1 Canvas Procedural Generator（Primary）
+## 3.1 TARP Tools Dark × Stationery Flat UI 
 
-The core drawable patterns—such as:
+The global theme uses:  
 
-* mm-grid
-* dot grid
-* ruled paper
-* thick/major lines
-* planner partitions
-* manuscript matrix
+* Dark navy backgrounds (#0f172b / #1e293b)  
+* Soft gray text for "stationery aesthetics"  
+* Cyan highlight for selections  
+* Tailwind v4 custom design tokens  
+* Input components styled for clarity and minimalism  
 
-are generated directly on `<canvas>` to avoid cumulative floating-point drift and browser shrinkage.
+---
 
-Advantages:
+## 3.2 Page Management UI
 
-* Pixel-perfect mm alignment
-* Fast drawing speed
-* Deterministic repeat patterns
-* Stable PDF export behavior
-* Accurate scaling under browser print engines
+Features include:  
 
-### 4.2 SVG Generator（Optional Layer）
-
-SVG is now **opt-in**, used only when:
-
-* Export as vector is requested
-* Text or frame decorations require it
-
-### 4.3 CSS Layer Composition
-
-Canvas → PNG (dataURL) is assigned into CSS backgrounds:
+* “Add Page” panel with selectable page types (Grid, Ruled, Half Layouts, etc.)  
+* Page list rendered as cards:
 
 ```
-background-image: url(data:image/png;base64,...)
-background-repeat: repeat / no-repeat
-background-size: <mm> <mm>
+📄 Page 1 — Full  
+📄 Page 2 — Half Left  
+📄 Page 3 — Half Right  
 ```
 
-This ensures:
-
-* Printer DPI doesn’t distort line spacing
-* Scaling occurs in mm units
-* Split-sheet layouts remain accurate
-
----
-
-# 5. Page Layout System
-
-### Supported Sizes
-
-* A4（P/L）
-* A5（P/L）
-* B5（P/L）
-* **A4 Split Mode（A5 × 2 等幅）**
-
-### Layout Parameters
-
-* Orientation (portrait / landscape)
-* Margins
-* Split boundaries
-* Center-gutter rendering
-* Double-sided variants（future）
-
-### mm-to-px Mapping
-
-* Canonical conversion:
-  `px = mm × (96 / 25.4)`
-* Rounding strategy avoids cumulative pitch drift.
+* Delete button per page  
+* Page selection highlighting  
+* Drag-and-drop ordering (via @dnd-kit/core)  
+* Full synchronization between UI and Canvas  
 
 ---
 
-# 6. Calendar Engine
+## 3.3 **Page Number Label UI** (★ New in v2.1)
 
-A programmable calendar generator:
+### Display Rules:
 
-* Arbitrary start month
-* Arbitrary month count（academic year, fiscal year）
-* Leap-year computation
-* Weekly grid styles
-* Typography and box geometry control
-* 12-month block layouts（4×3、3×4、12-column）
+| Number of Pages | Page Number Label  |  
+| --------------- | ------------------ |  
+| 1 page          | Hidden             |  
+| 2+ pages        | Shown on all pages |  
 
-Calendars can stack with grids, ruled lines, and manuscript layers.
+### Positioning:
 
+* Absolutely positioned at the **top-right corner** of each page  
+* Rendered only in the UI (excluded from print PNG)  
+* Style blends with the dark theme while remaining readable  
+* Cyan border and label work together to clarify selection  
+
+### Purpose:
+
+* Allows multi-page identification similar to Illustrator/Figma  
+* Greatly improves usability when working with 3+ pages  
+ 
 ---
 
-# 7. Manuscript Paper Engine（原稿用紙）
+## 3.4 **Artboard Gutter Specification** (★ New in v2.1)
 
-Capabilities:
+Defines spacing between pages when displayed on the Canvas.  
 
-* Horizontal or vertical writing
-* Arbitrary row × column counts
-* Cell size control（mm）
-* Outer frame emphasis
-* Optional title/name blocks
-* Blendable with other layers
-
-Rendered via Canvas for maximum geometric accuracy.
-
----
-
-# 8. Layout Mode（Interactive Editor）
-
-The editor UI provides:
-
-* Drag-and-drop positioning
-* Resize handles
-* mm-based snap grid
-* Live outline feedback
-* JSON scene graph:
+### Default:
 
 ```
-{
-  page: { size, orientation, margins },
-  layers: [...]
-}
+artboardGutter = 24px  
 ```
 
-### Rendering Consistency
+### Behavior:
 
-UI preview → print view
-Both re-render via Canvas to avoid mismatch.
+* Horizontal spacing applied uniformly  
+* After ~5 pages, layout wraps to a second row  
+* Gutter remains consistent even when wrapping  
+* Ensures visual separation and selection clarity  
+
+### Future Expansion:
+
+* User-configurable gutter spacing  
+* Optional layout guides  
 
 ---
 
-# 9. URL-Based Configuration Storage
+# 4. Page Types
 
-Scene state is encoded into:
+### 4.1 Grid Paper
+
+* Pitch (mm)  
+* Thin/Thick lines  
+* Thick step interval  
+* Line color  
+* Pure black (K100) mode  
+
+### 4.2 Ruled Paper
+
+* Line spacing (mm)  
+* Left margin (legal-pad style)  
+* Auto line count  
+* Pure black mode
+
+### 4.3 Half Layouts
+
+* `half-left` and `half-right`  
+* A4 → A5×2 layout logic  
+* Independent rendering of left/right side  
+* Extremely flexible for planners and split layouts
+
+### Patent point:
+
+A “half-page” rendering model that draws only selected portions of the sheet.  
+
+---
+
+# 5. Print Engine
+
+---
+
+## 5.1 Multi-Page PNG Output
+
+* Each page is rendered into a PNG before printing  
+* Eliminates all browser print inconsistencies  
+* Guarantees identical output across OS/browser  
+* Enables PDF export via browser print → PDF
+
+---
+
+## 5.2 Duplex Print Optimization
+
+* Zero-margin rendering ensures alignment  
+* Prevents backside offset  
+* Ideal for notebook/booklet production
+
+---
+
+## 5.3 Phantom Blank Page Prevention
+
+* Ensures no “mystery blank pages”  
+* Common printing issue fully eliminated
+
+---
+
+## 5.4 Mobile Consistency
+
+* iOS Safari / Android Chrome produce identical prints  
+* Unique among browser-based printing tools
+
+---
+
+## 5.5 **DPI & Real-Scale Printing Notes** (★ New in v2.1)
+
+Although browsers use **96dpi CSS pixel density**,  
+Liner Tool prints with **true physical dimensions**, not raster DPI.
+
+### Key Principles:
+
+* 1 CSS pixel = 1/96 inch  
+* mm → px conversion ensures exact real-world scale  
+* DPI does **not** affect line sharpness (unlike photos)  
+* Canvas line rendering ≈ vector-level clarity  
+* Subpixel lines (0.5px) provide extremely crisp output
+
+### Why DPI does not degrade print quality:
+
+* Layout consists of geometric lines, not images  
+* Browser prints apply dimension scaling, not pixel scaling  
+* PNG screenshots remain sharp because lines have no raster detail
+
+### Optional future extension:
+
+* 2×/3× DPI Canvas rendering  
+* Requires careful browser scaling to avoid blurring  
+
+Current method (v2.1) remains the optimal approach.
+
+---
+
+# 6. Data Save & URL Sharing
+
+---
+
+## 6.1 Compressed URL Save System
+
+* Uses LZString → Base64  
+* Saves full page structures inside `?data=`  
+* No backend required  
+* Shareable and persistent
+
+---
+
+## 6.2 Versioned Scene Data
+
+* `version: 2` (with auto-migration)  
+* Future-proof for calendars and decorative layouts  
+
+---
+
+## 6.3 Short URL API
 
 ```
-?data=<LZ-compressed-URI-component>
+POST https://s.tarp.tokyo/api/shorten  
 ```
 
-Benefits:
-
-* Full layout reproducibility
-* Template sharing
-* Cross-device portability
-* No server storage required
+* Saves compressed scene data in a database  
+* Generates a short, user-friendly share link  
 
 ---
 
-# 10. Export & Print System
+# 7. Branding & Presentation
 
-### Print
-
-* Print CSS enforces:
-
-  * UI hidden
-  * Zero margin
-  * Background prints enabled
-* Canvas-generated patterns ensure zero drift.
-* Print preview is 100% browser-based.
-* One-page enforcement logic prevents unwanted page breaks.
-
-### Export
-
-* PNG export
-* SVG export（optional / future enhancement）
-* PDF export（future module）
+* TARP Tools unified footer (toggleable)  
+* Pure black K100 lines for professional printing  
+* Dark stationery aesthetic across the UI
 
 ---
 
-# 11. UX Philosophy
+# 8. Patent-Relevant Features
 
-* Ad-free
-* Branding toggle（tarp.tokyo logo オン/オフ）
-* Mobile/desktop dual support
-* Printer-friendly color palette
-* K100（pure black output）mode
+### Unique elements introduced in v2.1:  
 
----
+1. **Multi-artboard layout with programmable gutters**  
+2. **Page number label system synchronized with UI selection**  
+3. **DPI-independent real-scale printing architecture**  
 
-# 12. Novelty & Patent Defense Claims
+### Continuing from earlier versions:
 
-This document establishes prior art for the following novel concepts:
-
-1. **Browser-native mm-precision ruled/grid/manuscript/calendar generator using a Canvas-first procedural engine.**
-2. **Hybrid raster/vector rendering pipeline with layer composition.**
-3. **URL-encoded reproducible print layouts enabling template sharing.**
-4. **Zero-margin single-page print enforcement under browser print engines.**
-5. **A4 split-sheet (A5×2) rendering with precise center-gutter geometry.**
-6. **Professional refill-paper generation entirely in-browser（no server, no PDF pre-render）.**
-7. **Composable multi-layer architecture for mixing grids, calendars, ruled lines, manuscript forms, and decorative frames.**
-8. **K100 black-rendering mode for high-end print devices.**
-9. **Geometric rounding strategies preventing cumulative drift in mm→px conversion.**
-
-These technical concepts, algorithms, and UI patterns are hereby declared unpatentable by external actors due to prior public disclosure.
+* Canvas millimeter-precision drawing  
+* Multi-page drag-and-drop engine  
+* Half-page rendering model  
+* URL-based compressed scene storage  
 
 ---
 
-# 13. License（TARP Tools License — Spec Draft）
+# 9. Revision History
 
-* Redistribution of engine logic is prohibited.
-* Commercial replication of core concepts, algorithms, or UI is forbidden.
-* Personal non-commercial printing is allowed.
-* Attribution optional when branding is disabled.
+| Version | Date           | Notes                                                          |  
+| ------- | -------------- | -------------------------------------------------------------- |  
+| 1.1     | 2025-12-05     | Initial SVG-based design                                       |  
+| 2.0     | 2025-12-07     | Full Canvas engine, artboards, D&D, PNG printing               |  
+| **2.1** | **2025-12-08** | **Artboard gutter rules, DPI notes, page number labels added** |
+
+---
+
+# 10. License
+
+This specification and the Liner Tool implementation are protected under the  
+**TARP Tools License**.  
+Unauthorized reproduction, modification, redistribution, or reverse engineering is prohibited.  
 
 Full policy:
 **[https://tools.tarp.tokyo/terms/](https://tools.tarp.tokyo/terms/)**
-
----
-
-# 14. Revision History
-
-* **2025-12-05** — Initial public disclosure (SVG-first version).
-* **2025-12-05** — Revised to reflect hybrid Canvas/SVG architecture and updated technical defense scope.
-

@@ -1,7 +1,7 @@
 # TARP Universal Progressive Attention UI Specification
 
 Version: 1.0  
-Status: Under Development
+Status: Under Development  
 Author: tarp.tokyo  
 License: TARP Tools License (see /terms/)
 

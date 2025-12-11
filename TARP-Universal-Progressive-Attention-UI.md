@@ -1,3 +1,10 @@
+# TARP Universal Progressive Attention UI Specification
+
+Version: 1.0  
+Status: Under Development
+Author: tarp.tokyo  
+License: TARP Tools License (see /terms/)
+
 ### 1. 概要
 
 「注意喚起 UI が、ユーザーのアクティブ使用時間に応じて徐々に静まる（視覚強度を下げる）」TARP Tools独自仕様。
@@ -67,8 +74,14 @@
 
 ### 8. ライセンス & 権利
 
-```
-© 2025 TARP Tools  
-This UX mechanism is an original design concept of TARP Tools.
-Reproduction without permission is prohibited.
-```
+This specification and all associated TARP implementation patterns are protected under the **TARP Tools License**.
+Unauthorized reproduction, reverse engineering, modification, or re-distribution is prohibited.
+
+See:
+`https://tools.tarp.tokyo/terms/`
+
+### Revision History
+
+| Version   | Date       | Changes               |
+| --------- | ---------- | --------------------- |
+| 1.0 | 2025-12-11 | Initial version |

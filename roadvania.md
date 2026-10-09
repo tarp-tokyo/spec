@@ -6,7 +6,7 @@
 | 項目 / Field | 内容 / Value |
 |---|---|
 | 文書ID / Document ID | ROADVANIA-TD-001 |
-| 版 / Version | 1.0 — 防衛公開版（公開待ち） / Defensive publication edition (pending release) |
+| 版 / Version | 1.0 — 防衛公開版 / Defensive publication edition (pending release) |
 | 文書作成日 / Preparation date | 2026-10-09, Asia/Tokyo |
 | 著者・公開者 / Author and publisher | tarp.tokyo |
 | 初回公開日（予定） / Initial publication date (scheduled) | 2026-10-09（日本時間 / Japan time） |

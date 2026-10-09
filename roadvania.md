@@ -27,7 +27,7 @@
 
 ## 2. 由来と状態区分 / Provenance and status categories
 
-**日本語：** 本書は「Roadvania 統合仕様書」v1.0と取得可能な「Roadvania 構想」の会話、およびセウが明示した要件に基づく。過去会話の全履歴は取得できていない。本書で具体化したデータ構造・処理順序・例示値は提案実施形態であり、過去にすべて考案・承認・実装されていたとの主張ではない。
+**日本語：** 本書は「Roadvania 統合仕様書」v1.0と取得可能な「Roadvania 構想」の会話、およびtarp.tokyoが明示した要件に基づく。過去会話の全履歴は取得できていない。本書で具体化したデータ構造・処理順序・例示値は提案実施形態であり、過去にすべて考案・承認・実装されていたとの主張ではない。
 
 **English:** This document is based on version 1.0 of the Roadvania integrated specification, the available Roadvania concept conversation, and requirements explicitly stated by Seu. The complete earlier conversation was not available. Data structures, processing sequences, and example values developed here are proposed embodiments, not assertions that every detail had previously been conceived, approved, or implemented.
 

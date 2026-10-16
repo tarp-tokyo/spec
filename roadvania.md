@@ -11,7 +11,7 @@
 | 著者・公開者 / Author and publisher | tarp.tokyo |
 | 文書ライセンス / Document license | TARP Tools License — https://tools.tarp.tokyo/terms/ |
 | 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). See Section 17 |
-| 本版の実際の公開日時 / Actual public release time of this version | 未記録：公開時に記入 / Not recorded; to be entered upon publication |
+| 本版の実際の公開日時 / Actual public release time of this version | 2026-10-16 15:55:14 JST（commit d69356e）。第17節 / See Section 17 |
 | 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/main/roadvania.md |
 | 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）を試作実装し、2026-10-16に実機確認版を公開。測定値は第15節の条件に限る。釣り・経済・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D) is implemented as a prototype and a device-test build was published on 2026-10-16. Measured values are limited to the conditions in Section 15. Fishing, economy, multiplayer, ZIP, and weather remain proposals |
 
@@ -308,12 +308,16 @@ buildGraph(features):
 
 **English:** When published, this edition is posted at a publicly readable location without login, recording the actual release time, persistent URL or commit ID, and SHA-256 of the released file. SHA-256 checks content identity but does not alone prove publication time. Prior public versions are preserved in the repository history. Preparing this file has not published it externally.
 
+**日本語：** 本版は2026-10-16 15:55:14 JSTに上記リポジトリへ掲載した（commit d69356e）。下表への公開記録の追記は、その後の別コミットで行った。そのため現在のファイルのSHA-256は、表に記したcommit d69356e時点の値と一致しない。
+
+**English:** This edition was posted to the repository above at 2026-10-16 15:55:14 JST (commit d69356e). The release record below was added in a later, separate commit, so the SHA-256 of the current file does not match the value recorded for commit d69356e.
+
 | 記録項目 / Record field | v1.0 | v2.0 |
 |---|---|---|
-| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 未記録 / Not yet recorded |
-| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | 公開時に記録 / Record at release |
-| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | 公開時に記録 / Record at release |
-| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 公開時に記録 / Record at release |
+| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 2026-10-16 15:55:14 JST |
+| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | d69356e9385db7e42c445ea8db5939f98c5315f0 |
+| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | https://github.com/tarp-tokyo/spec/blob/d69356e9385db7e42c445ea8db5939f98c5315f0/roadvania.md |
+| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 563edaac84fd2f980823cd0ff2f46774858c7ef03fd2b1ec68c4205a326829a3（commit d69356e時点の本文 / text as of commit d69356e） |
 | 公開者 / Publisher | tarp.tokyo | tarp.tokyo |
 | 文書ライセンス / Document license | TARP Tools License | TARP Tools License |
 

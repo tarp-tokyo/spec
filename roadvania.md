@@ -6,14 +6,14 @@
 | 項目 / Field | 内容 / Value |
 |---|---|
 | 文書ID / Document ID | ROADVANIA-TD-001 |
-| 版 / Version | 2.2 — 防衛公開 改訂版（表記の整理） / Defensive publication, revised edition (wording cleanup) |
+| 版 / Version | 2.3 — 防衛公開 改訂版 / Defensive publication, revised edition |
 | 文書作成日 / Preparation date | 2026-11-02, Asia/Tokyo |
 | 著者・公開者 / Author and publisher | tarp.tokyo |
 | 文書ライセンス / Document license | TARP Tools License — https://tools.tarp.tokyo/terms/ |
-| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。v2.0：2026-10-16 15:55:14 JST（commit d69356e）。v2.1：2026-11-02 11:32:16 JST（commit 7777545）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). v2.0: 2026-10-16 15:55:14 JST (commit d69356e). v2.1: 2026-11-02 11:32:16 JST (commit 7777545). See Section 17 |
-| 本版の実際の公開日時 / Actual public release time of this version | 2026-11-02 14:25:27 JST（commit ee625e1）。第17節 / See Section 17 |
+| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。v2.0：2026-10-16 15:55:14 JST（commit d69356e）。v2.1：2026-11-02 11:32:16 JST（commit 7777545）。v2.2：2026-11-02 14:25:27 JST（commit ee625e1）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). v2.0: 2026-10-16 15:55:14 JST (commit d69356e). v2.1: 2026-11-02 11:32:16 JST (commit 7777545). v2.2: 2026-11-02 14:25:27 JST (commit ee625e1). See Section 17 |
+| 本版の実際の公開日時 / Actual public release time of this version | 未記録：公開時に記入 / Not recorded; to be entered upon publication |
 | 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/main/roadvania.md |
-| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）とライト釣り（実施形態Gの一部）を試作実装し、実機確認版（2026-10-16〜）に反映。測定値は第15節の条件に限る。本格釣り・経済・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D) and light fishing (part of Embodiment G) are implemented as a prototype and deployed to the device-test build (since 2026-10-16). Measured values are limited to the conditions in Section 15. Advanced fishing, economy, multiplayer, ZIP, and weather remain proposals |
+| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）、ライト釣りと本格釣具の基本（実施形態Gの一部）、経済の基本（実施形態Cの一部）、記録・統計、PWA（ホーム画面への追加と端末への保存）を試作実装し、実機確認版（2026-10-16〜）に反映。測定値は第15節の条件に限る。地域ごとの魚データ・ランキング・車両・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D), light fishing and basic advanced tackle (part of Embodiment G), basic economy (part of Embodiment C), records and statistics, and a PWA (home-screen install and on-device caching) are implemented as a prototype and deployed to the device-test build (since 2026-10-16). Measured values are limited to the conditions in Section 15. Regional fish data, rankings, vehicles, multiplayer, ZIP, and weather remain proposals |
 
 ## 1. 目的・範囲 / Purpose and scope
 
@@ -33,6 +33,10 @@
 
 **English:** Defensive publication aims to make technical information available to the public, but its treatment as prior art depends on timing, disclosure content, jurisdiction, and the claims being evaluated. This document does not guarantee novelty, patentability, non-infringement, or prevention of all later patents. Publication may also affect the originator's future patent applications. Public disclosure is distinct from copyright, software, and asset licensing; use of this document is governed by the TARP Tools License in Section 18 and grants no permission for third-party assets or blanket waiver of rights. [WIPO Patent FAQ](https://www.wipo.int/en/web/patents/faq_patents), [JPO novelty and inventive-step guidelines](https://www.jpo.go.jp/system/laws/rule/guideline/patent/tukujitu_kijun/ht/03_0200.html)
 
+**日本語（v2.3の追加）：** v2.1の公開後に実装した、遊んだ時間だけで下がる鮮度・持てる数・保冷による売値の違いと釣り以外の収入（散歩距離・初めての地域・初めての施設）からなる経済の基本、端末内だけに残す網羅的な記録・統計、本格釣具（竿・ライン・消耗するエサと失われ得るルアー）による仕掛けの選択と、糸の張りと距離の二つのゲージで行う大物とのやりとり、夜の影を「ぬし」として釣る仕組み、ホーム画面への追加と端末への保存（Service Worker）、ブラウザとホーム画面のアプリを行き来した時に古い画面が新しい保存を上書きしない仕組み、一部の端末で模様の描画が失敗しても水面を残す描き方、利き手に合わせた配置の左右反転・横画面の配置・地図の出典表示の出し方を追加で開示する。
+
+**English (added in v2.3):** This revision additionally discloses what was implemented after v2.1: a basic economy consisting of freshness that decays only with play time, carrying limits and cooling-dependent sale prices, and non-fishing income (walking distance, first-visited areas, first-approached facilities); comprehensive records and statistics kept only on the device; rig selection with advanced tackle (rod, line, consumable bait, and lures that can be lost) and a big-fish fight using two gauges, line tension and distance; catching the night shadow as a "master" fish; home-screen installation and on-device caching (Service Worker); preventing a stale page from overwriting a newer save when switching between a browser tab and the home-screen app; a water rendering that remains visible when pattern drawing fails on some devices; and a layout mirrored for handedness, a landscape layout, and the presentation of map attribution.
+
 ## 2. 由来と状態区分 / Provenance and status categories
 
 **日本語：** 本版は、v1.0、tarp.tokyoが2026-10-09に統合した「Roadvania 仕様書 v2」（「Roadvania 全仕様書」と「Roadvania 統合仕様書」を統合）、および2026-10-09〜16の試作開発と検証の記録に基づく。仕様書v2の構想のうち、具体化したデータ構造・処理順序・例示値は提案実施形態であり、過去にすべて考案・承認・実装されていたとの主張ではない。
@@ -41,7 +45,7 @@
 
 | 状態 / Status | 内容 / Content |
 |---|---|
-| 試作実装・検証済み / Implemented and verified in prototype | 実地図のドット絵描画と色の統一、絵文字のドット絵化（Twemoji）、施設アイコン、道路グラフと立体交差判定、道幅内の8方向連続移動、橋の下の重なり表現、キーボード・ゲームパッド・ドラッグ・タップ入力、タップによる道なり自動移動、地域の看板と道路名、ミニマップとコンパス、日本語・ひらがな・英語、端末への保存、起動失敗の案内、版の切替による配信。v2.1で追加：実在の釣具屋データ、水辺判定とライト釣り、現在地からの開始、縮尺バー・散歩距離・速度計、施設名の種類名表示、引き継ぎコード、配信直後の確認と切り戻し / Pixel-art map rendering with palette quantization, emoji sprites (Twemoji), facility icons, road graph with grade separation, eight-direction corridor movement, under-bridge occlusion, keyboard/gamepad/drag/tap input, tap-to-walk, area signs and road names, minimap and compass, Japanese/hiragana/English, local persistence, boot-failure notice, release switching. Added in v2.1: real tackle-shop data, water detection and light fishing, start from current location, scale bar, walked distance and speedometer, category-name display for facilities, transfer code, post-deploy check and rollback |
+| 試作実装・検証済み / Implemented and verified in prototype | 実地図のドット絵描画と色の統一、絵文字のドット絵化（Twemoji）、施設アイコン、道路グラフと立体交差判定、道幅内の8方向連続移動、橋の下の重なり表現、キーボード・ゲームパッド・ドラッグ・タップ入力、タップによる道なり自動移動、地域の看板と道路名、ミニマップとコンパス、日本語・ひらがな・英語、端末への保存、起動失敗の案内、版の切替による配信。v2.1で追加：実在の釣具屋データ、水辺判定とライト釣り、現在地からの開始、縮尺バー・散歩距離・速度計、施設名の種類名表示、引き継ぎコード、配信直後の確認と切り戻し。v2.3で追加：経済の基本（鮮度・持てる数・保冷・釣り以外の収入）、記録・統計、本格釣具と大物とのやりとり、PWA、複数の画面での保存の上書き防止、水面の下地、利き手の配置・横画面・出典表示 / Pixel-art map rendering with palette quantization, emoji sprites (Twemoji), facility icons, road graph with grade separation, eight-direction corridor movement, under-bridge occlusion, keyboard/gamepad/drag/tap input, tap-to-walk, area signs and road names, minimap and compass, Japanese/hiragana/English, local persistence, boot-failure notice, release switching. Added in v2.1: real tackle-shop data, water detection and light fishing, start from current location, scale bar, walked distance and speedometer, category-name display for facilities, transfer code, post-deploy check and rollback. Added in v2.3: basic economy (freshness, carrying limits, cooling, non-fishing income), records and statistics, advanced tackle and big-fish fights, PWA, overwrite prevention across pages, water base layer, handedness layout, landscape layout, and attribution presentation |
 | 選択済み方針 / Selected direction | 見た目はドットゲーム全盛期を思わせる2Dの表示、操作感は滑らかな移動（既存作品の素材は使わない）。実地図（OSM）を世界対応で使用。絵文字キャラ。完全無料・広告なし。オリジナル通貨RV / Visual target: a 2D look reminiscent of the golden age of pixel-art games, with smooth movement (no assets from existing works). Worldwide real map (OSM). Emoji characters. Free with no advertising. Original RV currency |
 | 構想要件 / Concept requirements | 車・徒歩、釣り、図鑑、経済、ひとり旅とマルチ、待ち合わせ、知人限定の吹き出し会話、旅程づくり、旅の追体験、ZIP/NAVI、時間・天気、スキン、店舗コラボ通知、管理画面、公式Wiki / Driving and walking, fishing, field guide, economy, solo and multiplayer, meeting points, acquaintance-only speech bubbles, trip planning, trip replay, ZIP/NAVI, time and weather, skins, store collaboration notices, administration, official wiki |
 | 提案実施形態 / Proposed embodiments | 以下に記載する未実装の処理、構造、計算、代替方式 / Unimplemented procedures, structures, calculations, and alternatives described below |
@@ -185,6 +189,20 @@ buildGraph(features):
 
 **English:** The scale bar computes meters per CSS pixel from the current zoom and latitude, then shows the largest length among 1, 2, 5 × 10ⁿ m that fits within a maximum (for example 100 px), at the matching width. Walked distance accumulates, per frame, only position changes made while walking and under a threshold (for example 10 m), and is saved (moves to a start point or warps are not counted). Speed divides the actual on-screen speed by a fast-forward factor (on-screen walking speed ÷ displayed walking speed, e.g., 1 km/min ÷ 5 km/h = 12×), and shows the value converted to walking pace together with the factor. Speed display is optional in settings.
 
+### 7.2 利き手・横画面・出典表示（実装、v2.3） / Handedness, landscape layout, and attribution display (implemented, v2.3)
+
+**日本語：** 設定の「利き手」で、操作ボタン・コンパスと、ミニマップ・地名と数値の表示の左右を入れ替える（右手は操作ボタンが右、左手は左）。画面の端からの位置はsafe-areaの余白（カメラの切り欠き・角の丸み）と一定の余白（例：8px）の大きい方とする。高さの低い画面（例：横向きで540px以下）では操作ボタンを2列×3段（列の順に並べる）にして、上の角のコンパスと重ならないようにし、ミニマップも小さくする。
+
+**English:** A "handedness" setting swaps the sides of the control buttons and compass versus the minimap and the place-name and value displays (right-handed: controls on the right; left-handed: on the left). Offsets from screen edges use the larger of the safe-area inset (camera cutout, rounded corners) and a fixed margin (for example 8 px). On short screens (for example landscape at 540 px or less), the controls are arranged in two columns of three (filled column by column) so they do not collide with the compass in the top corner, and the minimap is reduced.
+
+**日本語：** 地図データの出典表示は、タイトル・設定の画面では開いて見せ、旅の画面に戻った時は一定時間（例：5秒）見せてから小さな情報ボタンに折りたたむ。ボタンを押せばいつでも開く。出典の折りたたみボタンは操作ボタンと反対側の下の角に置き、利き手の切り替えで地図の出典の部品を作り直して角を変える。全文は「このゲームについて」にも載せる。
+
+**English:** Map-data attribution is shown expanded on the title and settings screens; on returning to the journey it is shown for a time (for example 5 s) and then collapsed into a small information button, which can be pressed to expand it at any time. The collapsed attribution sits in the bottom corner opposite the controls; switching handedness recreates the attribution control in the other corner. The full text also appears on the "About" screen.
+
+**日本語：** お店の商品は、所持金が足りない時も値段と不足額を表示する（例：「300 RV（あと182 RV）」）。値段の長さで説明の幅が変わらないよう、購入ボタンは説明の下に置く。
+
+**English:** Shop items show the price and the shortfall even when the player cannot afford them (for example "300 RV (need 182 more)"). The purchase button is placed below the description so the price text does not narrow it.
+
 ## 8. 実施形態B：タップ移動・ZIP・NAVI / Embodiment B: tap-to-walk, ZIP, and NAVI
 
 ### 8.1 タップによる道なり自動移動（実装） / Tap-to-walk (implemented)
@@ -219,6 +237,12 @@ buildGraph(features):
 
 **English:** Water uses an 8×8-dot ripple pattern registered at a pixel ratio where one map dot equals one pattern dot, alternating between two patterns at an interval (for example 0.7 s). A band drawn over the water edge alternates between two colors to depict the shoreline. Devices requesting reduced motion receive no animation. Text (place, road, and water names) is not pixelated; a full-resolution text-only map is overlaid and shown only at wider zooms where names fall within view (for example z16 and below).
 
+### 9.1 模様が描けない端末での水面（実装、v2.3） / Water on devices that fail to draw patterns (implemented, v2.3)
+
+**日本語：** 一部の端末（例：あるAndroidのGPU）では、拡大すると水面の模様の塗り（画像を敷き詰める塗り）だけが描かれず、水域の縁の線は描かれるのに池が陸の色に見えた。模様の塗りの下に、同じ水域を無地の水の色で塗る層を置き、模様が描けない時も水面が残るようにする。描画ライブラリが完全に不透明な塗りを別の手順で先に描くと上の模様を隠すことがあるため、無地の層はごくわずかに透かす（例：不透明度0.99）。描いた後は色の統一でパレットの水の色に戻る。
+
+**English:** On some devices (for example a particular Android GPU), zooming in caused only the pattern fill of water (an image-tiled fill) to fail, so ponds looked like land while their edge lines were still drawn. A layer filling the same water with a plain water color is placed under the pattern fill so water remains visible when the pattern cannot be drawn. Because the rendering library may draw fully opaque fills in a separate earlier pass that hides the pattern above, the plain layer is made very slightly translucent (for example opacity 0.99); palette quantization then restores the palette's water color.
+
 ## 10. 実施形態F：絵文字キャラと施設アイコン（実装） / Embodiment F: emoji characters and facility icons (implemented)
 
 **日本語：** どの端末でも同じ見た目にするため、使用する絵文字のSVG画像（Twemoji、CC BY 4.0）だけを同梱し、無い場合のみ端末の絵文字フォントで描く。ドット絵化は次の手順で行う：大きなキャンバス（例：192px）に描く → 透明でない範囲を測る → 輪郭1ドット分の余白を残してn×n（例：キャラ20、施設14）に縮めて足元を下端にそろえる → 不透明度のしきい値で半透明を切り捨てる → 隣接する透明ドットに濃い輪郭色を付ける。歩行中は1ドット上下させ、左右の向きは反転表示で表す。
@@ -243,13 +267,33 @@ buildGraph(features):
 
 **English:** A table keyed by facility type (OpenMapTiles POI subclass, or class) records whether the type is public or commercial and its category name in three languages. Commercial facilities (convenience stores, supermarkets, tackle shops, restaurants, hospitals, banks, lodging) display only the category name, while the real name is kept in a separate field. Public facilities (stations, bus stops, schools, post offices, town halls, libraries, museums, viewpoints, attractions) display their real names, falling back to the category name. Retained real names serve purposes such as store collaborations in which only contracted stores show their real name with an official mark.
 
-### 11.2 経済（提案） / Economy (proposed)
+### 11.2 経済（基本は実装、v2.3。そのほかは提案） / Economy (basics implemented in v2.3; the rest proposed)
 
 **日本語：** v1.0の経済実施形態（RV、地域・店舗係数による価格、車種別の月額費用、燃料＝移動km÷燃費、二重徴収防止キー、価格版の固定）を維持する。加えて、魚の売値を「基準価格（魚種・サイズ・希少度）×鮮度係数×保冷係数（クーラーあり1.0、なし0.5）」で求める。釣りをしない旅でも、散歩距離・発見・イベントなどでRVを得られるようにする。数値は例示である。
 
 **English:** The v1.0 economy embodiment (RV, prices from regional and store coefficients, vehicle-specific monthly costs, fuel = distance km ÷ efficiency, duplicate-billing keys, fixed price versions) is retained. Fish sale price is computed as base price (species, size, rarity) × freshness factor × cooling factor (1.0 with a cooler, 0.5 without). RV can also be earned without fishing, through walking distance, discoveries, and events. Values are illustrative.
 
-## 12. 実施形態G：釣り（ライト釣りは実装、本格釣りは提案） / Embodiment G: fishing (light fishing implemented, advanced fishing proposed)
+### 11.2.1 経済の基本の実装（v2.3） / Basic economy implementation (v2.3)
+
+**日本語（手持ちと鮮度）：** 釣った魚は手持ちに入り、持てる数に上限がある（例：クーラーなし3匹、あり10匹）。上限を超えた魚は逃がすが図鑑には残る。鮮度は1.0から、旅の途中で画面が見えている間（遊んでいる時間）だけ下がり、現実の経過時間では下がらない。下限（例：0.2）までにかかる時間は保冷で変わる（例：クーラーなし約20分、あり約2時間）。鮮度は段階の言葉（とれたて・新鮮・ふつう・いたみかけ）で示す。
+
+**English (carried fish and freshness):** Caught fish go into a carried set with a limit (for example 3 without a cooler, 10 with one); fish beyond the limit are released but remain in the log. Freshness starts at 1.0 and decreases only while the journey is on screen (play time), not with real elapsed time. The time to reach a floor (for example 0.2) depends on cooling (for example about 20 minutes without a cooler and about 2 hours with one). Freshness is shown as words for stages (just caught, fresh, fair, spoiling).
+
+**日本語（売値）：** 売値＝max(1, 四捨五入(魚種の基準値×(サイズ÷魚種の最大サイズ)^1.5×鮮度×保冷係数))。保冷係数はクーラーあり1.0、なし0.5とする。魚は釣具屋のほか、地図上の実在のスーパー（施設の種類で判定）でも売れる。数値は例示である。
+
+**English (sale price):** Sale price = max(1, round(species base value × (size ÷ species maximum size)^1.5 × freshness × cooling factor)), where the cooling factor is 1.0 with a cooler and 0.5 without. Fish can be sold at tackle shops and at real supermarkets on the map (identified by facility type). Values are illustrative.
+
+**日本語（釣り以外の収入）：** 散歩距離（道の上を実際に進んだ距離）を貯め、一定距離（例：200m）ごとに1RVに換え、端数は保存して次に持ち越す。初めて入った地域（地域の看板が切り替わった時の地域キー）と、名前の出る距離（例：45m）まで初めて近づいた公共の施設（駅・名所・展望台など。商業施設は除く）にRVを与える（例：地域10RV、施設3RV）。発見の記録は件数の上限（例：5000件）を超えたら古いものから消す。
+
+**English (non-fishing income):** Walking distance (distance actually travelled on roads) accumulates and is converted into 1 RV per fixed distance (for example 200 m), with the remainder saved and carried over. RV is granted for first entry into an area (the area key when the area sign changes) and for first approach, within the name-display distance (for example 45 m), to a public facility (stations, landmarks, viewpoints, etc., excluding commercial facilities) (for example 10 RV per area and 3 RV per facility). Discovery records are capped (for example 5,000 entries), dropping the oldest.
+
+### 11.3 記録・統計（実装、v2.3） / Records and statistics (implemented, v2.3)
+
+**日本語：** 遊びの記録を端末内の保存データだけに持ち、サーバーへ送らない（引き継ぎコードには含まれる）。項目は、遊んだ日数（端末の日付で数え、同じ日は1回）、連続日数と最長、総プレイ時間（旅の途中で画面が見えている間）、旅をはじめた回数とはじめ方の内訳、散歩距離と走った距離・タップで自動に歩いた距離、訪れた地域・発見した施設・入った釣具屋（重複なし）とお店に入った回数、投げた・アタリで引けた・早すぎた・逃げられた回数、水域の種類ごとの釣果、図鑑の種類数、最大の魚、ハズレ・影、逃がした数（持ちきれず／自分で）、大物とのやりとりの結果、使ったエサ・なくしたルアー、所持金の最高額、稼いだRVの合計と収入源ごとの内訳、使ったRV、売った数、一番高く売れた1匹など。日付をまたいで遊んでいる時も保存のたびに日付を確かめる。
+
+**English:** Play records are kept only in the on-device save and never sent to a server (they are included in transfer codes). Items include days played (counted by device date, once per day), current and longest streaks, total play time (while the journey is on screen), journeys started and how they were started, walking distance with distances run and tap-walked, areas visited, facilities discovered, distinct tackle shops entered and shop visits, casts, bites hooked, too-early presses and escapes, catches per water type, species in the log, the largest fish, junk and shadows, releases (hands full / by choice), big-fish fight outcomes, bait used and lures lost, the highest balance, total RV earned with a breakdown by income source, RV spent, fish sold, and the best single sale. The date is rechecked on each save so play across midnight is counted.
+
+## 12. 実施形態G：釣り（ライト釣りと本格釣具の基本は実装、地域ごとの魚データなどは提案） / Embodiment G: fishing (light fishing and basic advanced tackle implemented; regional fish data and more proposed)
 
 ### 12.1 ライト釣りの実装（v2.1） / Light-fishing implementation (v2.1)
 
@@ -274,6 +318,24 @@ buildGraph(features):
 **日本語：** 水辺の判定は、海（海岸線から作った面）、湖・池（natural=water）、川・水路（waterway）、港（harbour等）を種類付きで取得し、プレイヤーが水域に面しているか一定距離内かで行う。釣果表は、地域ごとにFishBaseの分類・分布とGBIFの観測記録を取得・検証・キャッシュした候補表から、水域の種類・時刻・季節で選ぶ。観測記録は「今その場所で釣れる確率」ではなく、記録が無い地域を「魚がいない」としない。捕獲が規制される生き物は「発見・観察」として扱う。鮮度は時間で下がり、クーラーで保持する。
 
 **English:** Waterside detection obtains typed water bodies — sea (polygons built from coastlines), lakes and ponds (natural=water), rivers and channels (waterway), harbors — and checks whether the player faces or is within a distance of one. Catch tables are selected by water type, time, and season from per-region candidate tables built by fetching, validating, and caching FishBase taxonomy/distribution and GBIF occurrence records. Occurrence records are not a probability of catching fish now, and an absence of records does not mean no fish. Protected species are handled as sightings rather than catches. Freshness decreases over time and is preserved by coolers.
+
+### 12.3 本格釣具と大物とのやりとり（実装、v2.3） / Advanced tackle and big-fish fights (implemented, v2.3)
+
+**日本語（道具と仕掛け）：** 一定数（例：10匹）釣ると、釣具屋に本格ロッド、ライン（ふつう・太い）、エサ（投げるたびに1つ使う消耗品）、ルアー（何度も使えるが、糸が切れるとなくなる。持てる数に上限）が並ぶ。使う仕掛けを「かんたんな竿／本格・エサ／本格・ルアー」から選ぶ。本格の仕掛けは竿とラインと、エサまたはルアーがそろった時だけ選べ、初めてそろった時は自動で持ち替える。投げる時にエサ・ルアーが切れていたら、かんたんな竿で投げて知らせる。本格の仕掛けでは待ち時間とアタリの時間を長くする（例：2.5〜6.5秒、1.2秒）。
+
+**English (tackle and rigs):** After a number of catches (for example 10), tackle shops offer a pro rod, line (standard and heavy), bait (a consumable used on each cast), and lures (reusable, but lost when the line snaps; carrying limit). The player selects a rig: simple rod, pro with bait, or pro with lure. Pro rigs are selectable only when rod, line, and bait or a lure are all held, and the player switches to one automatically the first time they are complete. If bait or lures run out at cast time, the simple rod is cast instead with a notice. Pro rigs use longer waits and bite windows (for example 2.5–6.5 s and 1.2 s).
+
+**日本語（掛かる魚）：** 魚種ごとに、引きの強さ（0〜1）、エサで掛かるか、ルアーで掛かるか、夜に増える重みを持たせる。エサでは大物（例：15cm以上）と小魚（重みを例えば0.35倍）が、ルアーでは肉食の大物だけが候補になる。夜、本格の仕掛けでは一定の確率（例：8%）で、その水域と仕掛けで候補になる魚のうち基準値が最大の魚が、最大サイズに近い大きさ（例：88〜100%）で掛かる（「ぬし」）。かんたんな竿では同じ夜の影は釣れない。
+
+**English (what bites):** Each species has a pull strength (0–1), whether it takes bait, whether it takes lures, and a night weight bonus. With bait, candidates are big fish (for example 15 cm or more) and small fish (weights scaled, for example, by 0.35); with lures, only predatory big fish. At night with a pro rig, with some probability (for example 8%), the candidate species with the highest base value for that water type and rig bites at near-maximum size (for example 88–100%) as the "master"; with the simple rod the same night shadow cannot be caught.
+
+**日本語（やりとり）：** 大物が掛かると、糸の張り（0〜1）と魚までの距離（1→0）の二つのゲージを出す。魚の強さを、魚種の引き×(0.6＋0.4×サイズ÷最大サイズ)（ぬしは加算）とし、引きの目標値を一定間隔（例：0.5〜1.5秒）でその0.25〜1.2倍の範囲から選び直し、なめらかに追う。押している間は巻き、張りは((引き×0.9＋0.2)÷ラインの強さ−0.1)/秒で上がり、距離は巻く速さ×max(0.15, 1.15−引き)/秒で縮む。離している間は張りが(引き×0.25−0.7)/秒で変わり、魚は引きに比例して離れる（距離の上限は1）。張りが1に達すると糸が切れ（ルアーならなくす）、張りが小さい値（例：0.06）未満のまま一定時間（例：2秒）続くと針が外れ、距離が0になると釣れる。太いラインは強さ（例：1.6倍）で張りの上がり方を抑える。設定などの画面を開いている間は止める。数値は例示である。
+
+**English (fight):** When a big fish bites, two gauges appear: line tension (0–1) and distance to the fish (1→0). The fish's strength is the species pull × (0.6 + 0.4 × size ÷ max size) (plus a bonus for the master); the pull target is redrawn at intervals (for example 0.5–1.5 s) from 0.25–1.2 times that strength and followed smoothly. While the player holds, the line is reeled: tension rises at ((pull × 0.9 + 0.2) ÷ line strength − 0.1) per second and distance shrinks at reel speed × max(0.15, 1.15 − pull) per second. While released, tension changes at (pull × 0.25 − 0.7) per second and the fish moves away in proportion to its pull (distance capped at 1). Tension reaching 1 snaps the line (losing a lure if used); tension below a small value (for example 0.06) for a time (for example 2 s) unhooks the fish; distance reaching 0 lands it. Heavy line reduces the tension rise by its strength (for example 1.6×). The fight pauses while settings or other screens are open. Values are illustrative.
+
+**日本語（押し続ける操作）：** 巻く操作は、アクションボタンを押している間、決定のキー（Space・Enter・F）を押している間、ゲームパッドの決定ボタンを押している間、またはやりとり中に地図の上を押している間とし、いずれかが押されていれば巻く。ボタンを押した後はフォーカスを外し、キーの長押しがボタンに奪われないようにする。やりとり中は歩かず、タップによる自動移動も始めない。
+
+**English (holding input):** Reeling happens while any of the following is held: the action button, a confirm key (Space, Enter, F), the gamepad confirm button, or, during a fight, any point on the map. Focus is removed from the button after pressing so a held key is not captured by the button. During a fight the character does not walk and tap-to-walk does not start.
 
 ## 13. 実施形態H：ひとり旅・マルチ・待ち合わせ・旅程・追体験（提案） / Embodiment H: solo, multiplayer, meeting, planning, and replay (proposed)
 
@@ -313,11 +375,29 @@ buildGraph(features):
 
 **English:** For delivery, the build runs in a temporary folder outside the project and read permissions are normalized before upload. Right after switching the live release, the page, main script, and bundled data at the public URL are fetched; if any fails, the previous release is restored automatically.
 
+### 15.1.2 PWA と複数の画面での保存（実装、v2.3） / PWA and saving across pages (implemented, v2.3)
+
+**日本語（ホーム画面への追加）：** マニフェストに全画面表示とアイコンを指定し、ホーム画面から開くとブラウザのアドレスバーや端末の状態表示の帯なしで遊べるようにする。アイコンは、ゲーム自身が描いたドット絵の地図の切り抜き（例：64×64ドット）に、ドット絵化した絵文字のキャラを重ねた元画像を、外部ライブラリを使わない小さなPNGの読み書き処理で最近傍拡大して各サイズ（例：512・192・180・32px）を作る。
+
+**English (home-screen install):** The manifest specifies fullscreen display and icons, so opening from the home screen plays without the browser's address bar or the device status bar. Icons are produced from a source image — a crop of the game's own pixel-art map (for example 64×64 dots) with the pixelated emoji character on top — upscaled by nearest neighbor to each size (for example 512, 192, 180, and 32 px) with a small PNG reader/writer that uses no external library.
+
+**日本語（Service Worker）：** 本番のビルドだけで登録する。画面（HTML）はネットを優先し、一定時間（例：4秒）で返らない・つながらない時は保存した画面で開く。ハッシュ付きのファイルは中身が変わらないので保存した物を使い、件数の上限（例：150件）を超えたら古いものから消す。同梱データ・アイコン・マニフェストは保存した物ですぐ返して裏で更新する。地図タイル（別のサーバー）と保存データ（localStorage）には触れない。遊んでいる最中に再読み込みはせず、新しい版は次に開いた時に使われる。旧版のハッシュ付きファイルは配信側にも残すため、古い画面からの読み込みも失敗しない。
+
+**English (Service Worker):** It is registered only in production builds. The page (HTML) prefers the network and falls back to the cached page if there is no response within a time (for example 4 s) or no connection. Hashed files never change, so cached copies are used, with the oldest removed beyond a limit (for example 150 entries). Bundled data, icons, and the manifest are served from cache immediately and refreshed in the background. Map tiles (another server) and the save (localStorage) are not touched. No reload happens during play; a new release is used on the next launch. Because old hashed files are also retained on the server, loads from older pages do not fail.
+
+**日本語（古い画面による上書きの防止）：** 同じ保存領域を使うブラウザのタブとホーム画面のアプリを行き来すると、裏にあった画面が古い中身を持ったまま次の自動保存で新しい保存を上書きし得る。各画面は自分が最後に読み書きした保存の日時を覚えておき、保存の前と画面が表に戻った時に、保存領域の保存日時がそれより新しければ（ほかの画面が後から保存していれば）、上書きせずに読み込み直す。裏にある間は読み込み直さず保存だけを止め、表に戻った時に読み込み直す。読み込み直した後はタイトル画面で「ほかの画面で遊んだ続きを読み込みました」と知らせる。端末によってはホーム画面のアプリの保存領域がブラウザと別になるため、その場合は引き継ぎコードで移すよう案内する。
+
+**English (preventing overwrite by a stale page):** When switching between a browser tab and the home-screen app that share the same storage, a page left in the background may hold stale data and overwrite a newer save at its next autosave. Each page remembers the save time it last read or wrote; before saving and when the page returns to the foreground, if the stored save time is newer (another page saved later), it reloads instead of overwriting. While in the background it only stops saving and reloads when it returns to the foreground. After reloading, the title screen reports that progress from another page was loaded. On some devices the home-screen app's storage is separate from the browser's; users are then guided to move progress with a transfer code.
+
 ### 15.2 検証結果 / Verification results
 
 **日本語：** 以下は2026-10-11〜10-23、日本国内の地方都市の周辺（一部ニューヨーク・大阪）、開発用デスクトップのブラウザで測定した結果であり、他の地域・端末・データ版での性能や正確性を保証しない。
 
 **English:** The following were measured from 2026-10-11 to 2026-10-23 around a regional city in Japan (partly New York and Osaka) in a desktop development browser; they do not guarantee performance or accuracy in other regions, devices, or data versions.
+
+**日本語（v2.3の追加）：** v2.3の項目は2026-11-02に、開発用デスクトップのブラウザ（画面の大きさを変えた確認を含む）と、一部はAndroid実機で確認した。
+
+**English (added in v2.3):** The v2.3 items were checked on 2026-11-02 in a desktop development browser (including emulated screen sizes) and, for some items, on an Android device.
 
 | 検証 / Check | 結果 / Result |
 |---|---|
@@ -336,6 +416,13 @@ buildGraph(features):
 | 現在地からの開始（v2.1） / Start from location (v2.1) | 擬似的な位置情報で、大阪駅で7m、地方の駅のホーム付近で22m（主な道路網の上）。拒否・時間切れの案内 / with simulated positions, 7 m at Osaka Station and 22 m near a regional station platform (on the main network); denial and timeout messages |
 | 速度・距離（v2.1） / Speed and distance (v2.1) | 歩き約5km/h・走り約10km/hの表示、縮尺はz18で20m・z19で10m、散歩距離は再読み込み後も保持 / about 5 km/h walking and 10 km/h running displayed; scale 20 m at z18 and 10 m at z19; walked distance kept after reload |
 | 引き継ぎコード（v2.1） / Transfer code (v2.1) | 典型的な保存で約290文字。読み戻しで同じ内容、1文字の変更・途中で切れたコードを拒否、QRのリンクから確認画面 / about 290 characters for a typical save; round trip preserved content; one-character change and truncation rejected; QR link opened the confirmation |
+| 経済の基本（v2.3） / Basic economy (v2.3) | 散歩・初めての地域・施設の収入、持てる数の上限、クーラーなしの半値、スーパーでの売却、保存と再読み込みで保持 / income from walking, new areas and facilities, carrying limit, half price without a cooler, selling at supermarkets, retained across save and reload |
+| 記録・統計（v2.3） / Records and statistics (v2.3) | 各画面の操作で該当の項目が増え、保存データに残る。3言語で表示 / each action increments its item and persists in the save; shown in three languages |
+| 大物とのやりとり（v2.3） / Big-fish fight (v2.3) | 張りを見て押す・離すを繰り返す自動操作で約20秒で釣り上げ、押し続けると強い魚で約0.7秒で糸が切れてルアーを失い、押さないと約2秒で外れる（調整前の値）。2万回の抽選で、水域×エサ・ルアー×昼夜ごとの掛かる魚の割合を確認 / an automated hold-and-release strategy watching tension landed a fish in about 20 s; holding continuously snapped the line on a strong fish in about 0.7 s, losing the lure; not holding unhooked it in about 2 s (values before tuning). Catch ratios were checked over 20,000 draws per water type × bait/lure × day/night |
+| PWA（v2.3） / PWA (v2.3) | 本番ビルドでService Workerの登録と保存を確認し、配信サーバーを止めてもタイトル画面まで開く。Android実機でホーム画面に追加し、アドレスバーなしで動作 / Service Worker registration and caching confirmed in a production build; with the server stopped the game still opens to the title screen. Installed to the home screen on an Android device and ran without the address bar |
+| 保存の上書き防止（v2.3） / Overwrite prevention (v2.3) | 遊んでいる画面の裏でより新しい保存を書くと、古い画面は上書きせずに読み込み直し、新しい保存が残る / when a newer save was written behind a playing page, the stale page reloaded instead of overwriting, and the newer save remained |
+| 水面の下地（v2.3） / Water base layer (v2.3) | Android実機の一部の池で、拡大時に陸の色になっていた水面が青く表示されるようになった / on an Android device, ponds that turned land-colored when zoomed in are now shown as water |
+| 画面の配置（v2.3） / Layout (v2.3) | 横向き（915×390）とスマホ幅（375×812）で、ボタン・コンパス・ミニマップ・表示が重ならず、利き手の切り替えで左右が入れ替わり、出典は約5秒後にたたまれる / in landscape (915×390) and phone width (375×812), buttons, compass, minimap, and displays do not overlap; switching handedness swaps sides; attribution collapses after about 5 s |
 
 ## 16. 参照実装・工程・残る決定 / Reference implementation, stages, and open decisions
 
@@ -350,11 +437,14 @@ buildGraph(features):
 | M2 見た目 / Visuals | 色の統一、施設、看板、Twemoji、水辺、橋の下 / Quantization, facilities, signs, Twemoji, water, under-bridge | 完了 / Done |
 | M3 散歩MVP / Walking MVP | タイトル、保存、言語、設定、起動失敗の案内 / Title, save, languages, settings, boot guard | 完了 / Done |
 | M5 ライト釣り / Light fishing | 実在の釣具屋、竿、水辺判定、小魚、10匹で入荷、図鑑 / Real tackle shops, rod, water detection, small fish, unlock at 10, log | 完了（v2.1） / Done (v2.1) |
-| M4・M6〜M9 | 旅の便利機能、本格釣り・経済、マルチ・交流、時間・天気・追体験、運営 / Travel tools, advanced fishing and economy, multiplayer, time/weather/replay, operations | 未着手 / Not started |
+| M6a 経済の基本 / Basic economy | 鮮度・持てる数・クーラー・スーパー・釣り以外の収入、記録・統計 / Freshness, carrying limits, cooler, supermarkets, non-fishing income, records and statistics | 完了（v2.3） / Done (v2.3) |
+| M6b 本格釣具 / Advanced tackle | 竿・ライン・エサ・ルアー、大物とのやりとり、ぬし / Rod, line, bait, lures, big-fish fight, master fish | 完了（v2.3） / Done (v2.3) |
+| PWA | ホーム画面への追加、端末への保存、保存の上書き防止 / Home-screen install, on-device caching, overwrite prevention | 完了（v2.3） / Done (v2.3) |
+| M4・M6の残り・M7〜M9 / M4, rest of M6, M7–M9 | 旅の便利機能、地域ごとの魚データ・ランキング・車両、マルチ・交流、時間・天気・追体験、運営 / Travel tools, regional fish data, rankings, vehicles, multiplayer, time/weather/replay, operations | 未着手 / Not started |
 
-**日本語：** 未決事項：地図タイルの自前配信と障害時の代替、ワープの制限方式、検索・郵便番号・経路の提供元、位置情報と位置履歴のプライバシー設計、釣りの判定距離と釣果表、FishBaseの利用許諾とGBIFのライセンス選別、売値・鮮度・RV収入、車の課金時計、マルチの同期設計とVPSの負荷試験、時刻源と天気の提供元、店舗コラボの発火条件、UIフレームワーク、端末間の引き継ぎ。技術例の記載は製品採用の決定ではない。
+**日本語：** 未決事項：地図タイルの自前配信と障害時の代替、ワープの制限方式、検索・郵便番号・経路の提供元、位置情報と位置履歴のプライバシー設計、釣りの判定距離と釣果表、FishBaseの利用許諾とGBIFのライセンス選別、売値・鮮度・RV収入・本格釣具の数値の調整、車の課金時計、マルチの同期設計とVPSの負荷試験、時刻源と天気の提供元、店舗コラボの発火条件、UIフレームワーク、端末間の引き継ぎ。技術例の記載は製品採用の決定ではない。
 
-**English:** Open decisions: self-hosted tiles and failover, warp restrictions, providers for search, postal codes, and routing, privacy design for location and location history, fishing detection distance and catch tables, FishBase permission and GBIF license filtering, prices, freshness, and RV income, the vehicle billing clock, multiplayer synchronization and VPS load testing, time source and weather provider, store-collaboration triggers, UI framework, and cross-device transfer. Describing an embodiment does not adopt it as product policy.
+**English:** Open decisions: self-hosted tiles and failover, warp restrictions, providers for search, postal codes, and routing, privacy design for location and location history, fishing detection distance and catch tables, FishBase permission and GBIF license filtering, tuning of prices, freshness, RV income, and advanced-tackle values, the vehicle billing clock, multiplayer synchronization and VPS load testing, time source and weather provider, store-collaboration triggers, UI framework, and cross-device transfer. Describing an embodiment does not adopt it as product policy.
 
 ## 17. データ・権利・運用の限界と公開記録 / Limitations and publication record
 
@@ -382,14 +472,14 @@ buildGraph(features):
 
 **English:** v2.2 was posted at 2026-11-02 14:25:27 JST (commit ee625e1). As before, the release record was added in a later, separate commit, so the SHA-256 of the current file does not match the value recorded for commit ee625e1.
 
-| 記録項目 / Record field | v1.0 | v2.0 | v2.1 | v2.2 |
-|---|---|---|---|---|
-| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 2026-10-16 15:55:14 JST | 2026-11-02 11:32:16 JST | 2026-11-02 14:25:27 JST |
-| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | d69356e9385db7e42c445ea8db5939f98c5315f0 | 7777545cf76ae0c81234ba250f437e9fc0e1c8eb | ee625e12f4cbf0559ea62df47244f596c22969d3 |
-| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | https://github.com/tarp-tokyo/spec/blob/d69356e9385db7e42c445ea8db5939f98c5315f0/roadvania.md | https://github.com/tarp-tokyo/spec/blob/7777545cf76ae0c81234ba250f437e9fc0e1c8eb/roadvania.md | https://github.com/tarp-tokyo/spec/blob/ee625e12f4cbf0559ea62df47244f596c22969d3/roadvania.md |
-| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 563edaac84fd2f980823cd0ff2f46774858c7ef03fd2b1ec68c4205a326829a3（commit d69356e時点の本文 / text as of commit d69356e） | e092d6cf486c269b2f099c6f7e881bd19bb3c307a2d4f834b352734ea5682305（commit 7777545時点の本文 / text as of commit 7777545） | cbfe7c2cc193243f27eb85959aa59a6f1fd240014c92780d2e01d8b9340cd4d0（commit ee625e1時点の本文 / text as of commit ee625e1） |
-| 公開者 / Publisher | tarp.tokyo | tarp.tokyo | tarp.tokyo | tarp.tokyo |
-| 文書ライセンス / Document license | TARP Tools License | TARP Tools License | TARP Tools License | TARP Tools License |
+| 記録項目 / Record field | v1.0 | v2.0 | v2.1 | v2.2 | v2.3 |
+|---|---|---|---|---|---|
+| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 2026-10-16 15:55:14 JST | 2026-11-02 11:32:16 JST | 2026-11-02 14:25:27 JST | 未記録 / Not yet recorded |
+| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | d69356e9385db7e42c445ea8db5939f98c5315f0 | 7777545cf76ae0c81234ba250f437e9fc0e1c8eb | ee625e12f4cbf0559ea62df47244f596c22969d3 | 公開時に記録 / Record at release |
+| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | https://github.com/tarp-tokyo/spec/blob/d69356e9385db7e42c445ea8db5939f98c5315f0/roadvania.md | https://github.com/tarp-tokyo/spec/blob/7777545cf76ae0c81234ba250f437e9fc0e1c8eb/roadvania.md | https://github.com/tarp-tokyo/spec/blob/ee625e12f4cbf0559ea62df47244f596c22969d3/roadvania.md | 公開時に記録 / Record at release |
+| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 563edaac84fd2f980823cd0ff2f46774858c7ef03fd2b1ec68c4205a326829a3（commit d69356e時点の本文 / text as of commit d69356e） | e092d6cf486c269b2f099c6f7e881bd19bb3c307a2d4f834b352734ea5682305（commit 7777545時点の本文 / text as of commit 7777545） | cbfe7c2cc193243f27eb85959aa59a6f1fd240014c92780d2e01d8b9340cd4d0（commit ee625e1時点の本文 / text as of commit ee625e1） | 公開時に記録 / Record at release |
+| 公開者 / Publisher | tarp.tokyo | tarp.tokyo | tarp.tokyo | tarp.tokyo | tarp.tokyo |
+| 文書ライセンス / Document license | TARP Tools License | TARP Tools License | TARP Tools License | TARP Tools License | TARP Tools License |
 
 ## 18. ライセンスと知的財産 / License and intellectual property
 
@@ -404,3 +494,5 @@ buildGraph(features):
 | 1.0 | 2026-10-09 | 日英併記の防衛公開版。移動、ZIP/NAVI、地域経済、時間・天気の提案実施形態と制約 / Bilingual defensive publication; proposed movement, ZIP/NAVI, regional economy, time/weather embodiments and limitations |
 | 2.0 | 2026-10-16 | 試作実装と検証を反映。追加：ベクタータイルのドット絵描画と色の統一（E）、絵文字のドット絵化と施設アイコン（F）、最大ズームの非表示地図からの道路グラフ構築・接続規則・道幅接触の接続・連結成分（A）、道幅内移動と橋の下の重なり表現（A）、入力統合とタップ移動の経路短縮（B）、地域の看板と多言語の名前選択（C）、釣り（G）、ひとり旅・マルチ・待ち合わせ・旅程・追体験（H）、起動失敗の案内・版付き保存・版切替配信（J）、検証結果、v1.0の公開記録。Pixi.jsのタイル方式からMapLibreのベクタータイル方式へ変更 / Reflects prototype implementation and verification. Adds pixel-art vector rendering with palette quantization (E), emoji pixel sprites and facility icons (F), road graph from a hidden max-zoom map with linking rules, width-contact links, and components (A), corridor movement and under-bridge occlusion (A), input integration and smoothed tap-to-walk (B), area signs and multilingual names (C), fishing (G), solo/multiplayer, meeting, planning, and replay (H), boot guard, versioned saves, and release switching (J), verification results, and the v1.0 release record. Moves from a Pixi.js tile approach to MapLibre vector tiles |
 | 2.1 | 2026-11-02 | v2.0公開後の実装を追加：実在の釣具屋の抽出とマス分割の配信、水辺の種類判定とライト釣りの流れ（G、12.1）、現在地からの開始地点の選び方（8.3）、縮尺バー・散歩距離・早送りとしての速度表示（7.1）、商業施設の種類名表示と実名の保持（11.1.1）、引き継ぎコード（15.1.1）、配信直後の確認と自動の切り戻し（15.1.1）、検証結果の追加、v2.0の公開記録 / Adds work implemented after v2.0: extraction and cell-tiled delivery of real tackle shops, water-type detection and the light-fishing flow (G, 12.1), start-point selection from the current location (8.3), scale bar, walked distance, and fast-forwarded speed display (7.1), category-name display with retained real names (11.1.1), the transfer code (15.1.1), post-deploy check with automatic rollback (15.1.1), additional verification results, and the v2.0 release record |
+| 2.2 | 2026-11-02 | 表記の整理のみ：検証地域の地名を一般的な表現に置き換え、見た目・操作感の目標から既存作品の名称を除いた。技術内容の変更なし / Wording cleanup only: test-area place names replaced with general descriptions and names of existing works removed from the visual and handling goals; no technical changes |
+| 2.3 | 2026-11-02 | v2.1公開後の実装を追加：画面の配置（利き手・横画面・出典表示・不足額の表示、7.2）、模様が描けない端末での水面（9.1）、経済の基本（鮮度・持てる数・保冷・売値・釣り以外の収入、11.2.1）、記録・統計（11.3）、本格釣具と大物とのやりとり・ぬし・押し続ける操作（12.3）、PWAと古い画面による上書きの防止（15.1.2）、検証結果の追加、v2.1・v2.2の公開記録 / Adds work implemented after v2.1: layout (handedness, landscape, attribution, shortfall display, 7.2), water on devices that fail pattern drawing (9.1), basic economy (freshness, carrying limits, cooling, prices, non-fishing income, 11.2.1), records and statistics (11.3), advanced tackle, big-fish fights, master fish, and holding input (12.3), PWA and stale-page overwrite prevention (15.1.2), additional verification results, and the v2.1 and v2.2 release records |

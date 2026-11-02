@@ -6,20 +6,24 @@
 | 項目 / Field | 内容 / Value |
 |---|---|
 | 文書ID / Document ID | ROADVANIA-TD-001 |
-| 版 / Version | 2.0 — 防衛公開 改訂版 / Defensive publication, revised edition |
-| 文書作成日 / Preparation date | 2026-10-16, Asia/Tokyo |
+| 版 / Version | 2.1 — 防衛公開 改訂版 / Defensive publication, revised edition |
+| 文書作成日 / Preparation date | 2026-11-02, Asia/Tokyo |
 | 著者・公開者 / Author and publisher | tarp.tokyo |
 | 文書ライセンス / Document license | TARP Tools License — https://tools.tarp.tokyo/terms/ |
-| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). See Section 17 |
-| 本版の実際の公開日時 / Actual public release time of this version | 2026-10-16 15:55:14 JST（commit d69356e）。第17節 / See Section 17 |
+| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。v2.0：2026-10-16 15:55:14 JST（commit d69356e）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). v2.0: 2026-10-16 15:55:14 JST (commit d69356e). See Section 17 |
+| 本版の実際の公開日時 / Actual public release time of this version | 未記録：公開時に記入 / Not recorded; to be entered upon publication |
 | 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/main/roadvania.md |
-| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）を試作実装し、2026-10-16に実機確認版を公開。測定値は第15節の条件に限る。釣り・経済・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D) is implemented as a prototype and a device-test build was published on 2026-10-16. Measured values are limited to the conditions in Section 15. Fishing, economy, multiplayer, ZIP, and weather remain proposals |
+| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）とライト釣り（実施形態Gの一部）を試作実装し、実機確認版（2026-10-16〜）に反映。測定値は第15節の条件に限る。本格釣り・経済・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D) and light fishing (part of Embodiment G) are implemented as a prototype and deployed to the device-test build (since 2026-10-16). Measured values are limited to the conditions in Section 15. Advanced fishing, economy, multiplayer, ZIP, and weather remain proposals |
 
 ## 1. 目的・範囲 / Purpose and scope
 
 **日本語：** 本書はRoadvaniaの技術構想と具体的な実施形態を、防衛公開に使用できる形で記録する。v1.0で開示した道路接続に基づく移動、郵便番号から経路案内への処理、地域経済、時間・天気・テーマに加え、本版では次を開示する：実地図のベクタータイルをドット絵風に描く描画処理、絵文字のドット絵化と施設アイコン、ベクタータイルからの道路グラフ構築と立体交差の判定、橋の下の重なり表現、複数入力の統合とタップによる道なり自動移動、地域名の看板表示、多言語の名前選択、起動失敗の案内と安全な更新配信、ならびに提案段階の釣り・ひとり旅とマルチ・待ち合わせ・旅程と追体験。
 
 **English:** This document records the Roadvania technical concept and concrete embodiments in a form intended for defensive publication. In addition to the road-connectivity movement, postal-code-to-navigation processing, regional economy, and time/weather/theme embodiments disclosed in v1.0, this edition discloses: pixel-art rendering of real-world vector map tiles; pixel-art conversion of emoji characters and facility icons; road-graph construction from vector tiles with grade-separation handling; depiction of passing beneath bridges; integration of multiple input sources and tap-to-walk route following; area-name signs; multilingual name selection; boot-failure notices and safe release deployment; and proposed embodiments for fishing, solo and multiplayer play, meeting points, and trip planning and replay.
+
+**日本語（v2.1の追加）：** v2.0の公開後に実装した、地図タイルに無い実在の釣具屋の抽出と分割配信、水辺の種類判定とライト釣りの流れ、現在地からの開始地点の選び方、縮尺バー・散歩距離・早送りとしての速度表示、商業施設を種類名で表示し実名を保持する名前の扱い、サーバーを使わない引き継ぎコード、切替直後の確認と自動の切り戻しを伴う配信を追加で開示する。
+
+**English (added in v2.1):** This revision additionally discloses what was implemented after v2.0: extraction and tiled delivery of real tackle shops absent from the map tiles; water-type detection and the light-fishing flow; start-position selection from the current location; a scale bar, walked distance, and speed shown as fast-forwarded walking; display of commercial facilities by category while retaining real names; a serverless transfer code; and delivery with a post-switch check and automatic rollback.
 
 **日本語：** 防衛公開は技術内容を公衆に利用可能とすることを目的とするが、先行技術としての評価は公開時期・内容・法域・対象請求項などに依存する。本書は新規性、特許性、非侵害、他者による特許取得の全面的阻止を保証しない。公開は自己の将来の特許出願にも影響し得る。公開と、著作権・ソフトウェア・素材の利用許諾は別であり、本書の利用条件は第18節のTARP Tools Licenseに従い、第三者素材への許諾や包括的な権利放棄を意味しない。[WIPO Patent FAQ](https://www.wipo.int/en/web/patents/faq_patents)、[JPO 新規性・進歩性](https://www.jpo.go.jp/system/laws/rule/guideline/patent/tukujitu_kijun/ht/03_0200.html)
 
@@ -33,7 +37,7 @@
 
 | 状態 / Status | 内容 / Content |
 |---|---|
-| 試作実装・検証済み / Implemented and verified in prototype | 実地図のドット絵描画と色の統一、絵文字のドット絵化（Twemoji）、施設アイコン、道路グラフと立体交差判定、道幅内の8方向連続移動、橋の下の重なり表現、キーボード・ゲームパッド・ドラッグ・タップ入力、タップによる道なり自動移動、地域の看板と道路名、ミニマップとコンパス、日本語・ひらがな・英語、端末への保存、起動失敗の案内、版の切替による配信 / Pixel-art map rendering with palette quantization, emoji sprites (Twemoji), facility icons, road graph with grade separation, eight-direction corridor movement, under-bridge occlusion, keyboard/gamepad/drag/tap input, tap-to-walk, area signs and road names, minimap and compass, Japanese/hiragana/English, local persistence, boot-failure notice, release switching |
+| 試作実装・検証済み / Implemented and verified in prototype | 実地図のドット絵描画と色の統一、絵文字のドット絵化（Twemoji）、施設アイコン、道路グラフと立体交差判定、道幅内の8方向連続移動、橋の下の重なり表現、キーボード・ゲームパッド・ドラッグ・タップ入力、タップによる道なり自動移動、地域の看板と道路名、ミニマップとコンパス、日本語・ひらがな・英語、端末への保存、起動失敗の案内、版の切替による配信。v2.1で追加：実在の釣具屋データ、水辺判定とライト釣り、現在地からの開始、縮尺バー・散歩距離・速度計、施設名の種類名表示、引き継ぎコード、配信直後の確認と切り戻し / Pixel-art map rendering with palette quantization, emoji sprites (Twemoji), facility icons, road graph with grade separation, eight-direction corridor movement, under-bridge occlusion, keyboard/gamepad/drag/tap input, tap-to-walk, area signs and road names, minimap and compass, Japanese/hiragana/English, local persistence, boot-failure notice, release switching. Added in v2.1: real tackle-shop data, water detection and light fishing, start from current location, scale bar, walked distance and speedometer, category-name display for facilities, transfer code, post-deploy check and rollback |
 | 選択済み方針 / Selected direction | 見た目はポケモン ダイヤモンド・パールの2D風、操作感はStardew Valley並みに滑らか（参照であり既存作品の素材は使わない）。実地図（OSM）を世界対応で使用。絵文字キャラ。完全無料・広告なし。オリジナル通貨RV / Visual target inspired by the 2D look of Pokémon Diamond/Pearl and the smoothness of Stardew Valley (references only; no assets from those works). Worldwide real map (OSM). Emoji characters. Free with no advertising. Original RV currency |
 | 構想要件 / Concept requirements | 車・徒歩、釣り、図鑑、経済、ひとり旅とマルチ、待ち合わせ、知人限定の吹き出し会話、旅程づくり、旅の追体験、ZIP/NAVI、時間・天気、スキン、店舗コラボ通知、管理画面、公式Wiki / Driving and walking, fishing, field guide, economy, solo and multiplayer, meeting points, acquaintance-only speech bubbles, trip planning, trip replay, ZIP/NAVI, time and weather, skins, store collaboration notices, administration, official wiki |
 | 提案実施形態 / Proposed embodiments | 以下に記載する未実装の処理、構造、計算、代替方式 / Unimplemented procedures, structures, calculations, and alternatives described below |
@@ -171,6 +175,12 @@ buildGraph(features):
 
 **English:** Position is held in Web Mercator world units, separating display scale from physical distance. Camera, zoom, or dot-size changes do not alter distance or future fuel calculations. The v1.0 example of 32-pixel tile scales is superseded by vector-tile rendering (Section 9).
 
+### 7.1 縮尺バー・散歩距離・速度表示（実装、v2.1） / Scale bar, walked distance, and speed display (implemented, v2.1)
+
+**日本語：** 縮尺バーは、今のズームと緯度から1CSSピクセルあたりのメートルを求め、最大長（例：100px）以内に収まる1・2・5×10ⁿ mのうち最大の長さを、その長さに対応する幅で表示する。散歩距離は、毎フレームの位置の変化のうち、歩行中かつ一定距離（例：10m）以下のものだけを積算して保存する（開始地点への移動やワープは数えない）。速度は、画面上の実際の速さを早送りの倍率（徒歩の画面上の速さ ÷ 表示上の徒歩の速さ、例：1km/分 ÷ 5km/h ＝ 12倍）で割り、「徒歩の速さに換算した値」と倍率を併記する。速度表示は利用者が設定で選ぶ。
+
+**English:** The scale bar computes meters per CSS pixel from the current zoom and latitude, then shows the largest length among 1, 2, 5 × 10ⁿ m that fits within a maximum (for example 100 px), at the matching width. Walked distance accumulates, per frame, only position changes made while walking and under a threshold (for example 10 m), and is saved (moves to a start point or warps are not counted). Speed divides the actual on-screen speed by a fast-forward factor (on-screen walking speed ÷ displayed walking speed, e.g., 1 km/min ÷ 5 km/h = 12×), and shows the value converted to walking pace together with the factor. Speed display is optional in settings.
+
 ## 8. 実施形態B：タップ移動・ZIP・NAVI / Embodiment B: tap-to-walk, ZIP, and NAVI
 
 ### 8.1 タップによる道なり自動移動（実装） / Tap-to-walk (implemented)
@@ -184,6 +194,12 @@ buildGraph(features):
 **日本語：** v1.0の郵便番号処理（7桁文字列、住所候補、近似代表点、移動モードに合う道路への接続、距離上限と失敗表示）とNAVI（同一グラフでの経路探索、案内または自動移動、手動中断、燃料切れ等での停止・再探索）を維持する。郵便番号は日本の仕組みのため、海外では地名検索で代替する。ワープは、一度訪れた場所、招待を受けたフレンドの位置、旅の開始地点の選択に限る案とし、自由ワープによる旅・経済・行動範囲の拡張要素の弱体化を避ける。開始地点の選択（宇多津、浅草寺、京都駅、道後温泉、タイムズスクエア、エッフェル塔、タワーブリッジ）は実装済み。
 
 **English:** The v1.0 postal-code processing (seven-digit strings, address candidates, approximate representative points, attachment to mode-appropriate roads, distance limits and failure reporting) and NAVI (route search on the same graph, guidance or automatic movement, manual interruption, stopping or replanning on fuel exhaustion) are retained. Because postal codes are a Japanese system, place-name search substitutes abroad. Warps are proposed to be limited to previously visited places, the location of an inviting friend, or the choice of a starting point, avoiding the weakening of travel, economy, and range-expansion elements by free warping. Choosing a starting point (Utazu, Senso-ji, Kyoto Station, Dogo Onsen, Times Square, Eiffel Tower, Tower Bridge) is implemented.
+
+### 8.3 現在地からの開始（実装、v2.1） / Starting from the current location (implemented, v2.1)
+
+**日本語：** 開始画面で現在地から始める場合、端末の位置情報（利用者の許可が必要、安全な接続のみ）から座標を得る。座標はサーバーへ送らない。開始地点は、その座標から一定範囲（例：100m）の地上の線分のうち、一定数（例：50本）以上の線分からなる連結成分に属する最も近いものとし、小さく孤立した道に降ろさない。許可されない・取得できない・時間切れの場合は理由を示し、ほかの開始方法を選べるようにする。一覧の場所から始める場合は、車も通る地上の道路を優先する別の規則を用いる。
+
+**English:** When starting from the current location, coordinates come from the device's location service (user permission required, secure contexts only) and are not sent to a server. The start point is the nearest ground-level segment within a radius (for example 100 m) that belongs to a connected component of at least a set number of segments (for example 50), avoiding small isolated ways. If permission is denied, no position is available, or a timeout occurs, the reason is shown and other start options remain available. Starting from a listed place uses a different rule preferring ground-level roads also used by vehicles.
 
 ## 9. 実施形態E：実地図のドット絵描画（実装） / Embodiment E: pixel-art rendering of real maps (implemented)
 
@@ -217,13 +233,35 @@ buildGraph(features):
 
 **English:** The nearest fine-grained area point (block, neighborhood) is selected, switching only when the new area is closer than the current one by a margin (for example 20%), preventing repeated signs at boundaries. A sign with the area name appears at the top of the screen when it changes. The nearest named road line within a distance (for example 10 m) is shown in the status panel. Names are chosen by language-specific fallback: Japanese name:ja→name; hiragana name:ja-Hira→name:ja→name; English name:en→name_en→name:ja-Latn→name_int→name. UI text is a human-written dictionary for three languages; kanji readings are not machine-converted.
 
+### 11.1.1 施設名の表示（実装、v2.1） / Facility name display (implemented, v2.1)
+
+**日本語：** 施設の種類（OpenMapTilesのpoiのsubclass、無ければclass）ごとに、公共か商業かと3言語の種類名を持つ表を用いる。商業施設（コンビニ、スーパー、釣具屋、飲食店、病院、銀行、宿など）は画面に種類名だけを出し、実名は別の項目として保持する。公共施設（駅、バス停、学校、郵便局、役所、図書館、博物館、展望台、名所など）は実名を出し、名前が無ければ種類名を出す。保持した実名は、契約した店舗だけ実名と公式表示を出す店舗コラボなどに使う。
+
+**English:** A table keyed by facility type (OpenMapTiles POI subclass, or class) records whether the type is public or commercial and its category name in three languages. Commercial facilities (convenience stores, supermarkets, tackle shops, restaurants, hospitals, banks, lodging) display only the category name, while the real name is kept in a separate field. Public facilities (stations, bus stops, schools, post offices, town halls, libraries, museums, viewpoints, attractions) display their real names, falling back to the category name. Retained real names serve purposes such as store collaborations in which only contracted stores show their real name with an official mark.
+
 ### 11.2 経済（提案） / Economy (proposed)
 
 **日本語：** v1.0の経済実施形態（RV、地域・店舗係数による価格、車種別の月額費用、燃料＝移動km÷燃費、二重徴収防止キー、価格版の固定）を維持する。加えて、魚の売値を「基準価格（魚種・サイズ・希少度）×鮮度係数×保冷係数（クーラーあり1.0、なし0.5）」で求める。釣りをしない旅でも、散歩距離・発見・イベントなどでRVを得られるようにする。数値は例示である。
 
 **English:** The v1.0 economy embodiment (RV, prices from regional and store coefficients, vehicle-specific monthly costs, fuel = distance km ÷ efficiency, duplicate-billing keys, fixed price versions) is retained. Fish sale price is computed as base price (species, size, rarity) × freshness factor × cooling factor (1.0 with a cooler, 0.5 without). RV can also be earned without fishing, through walking distance, discoveries, and events. Values are illustrative.
 
-## 12. 実施形態G：釣り（提案） / Embodiment G: fishing (proposed)
+## 12. 実施形態G：釣り（ライト釣りは実装、本格釣りは提案） / Embodiment G: fishing (light fishing implemented, advanced fishing proposed)
+
+### 12.1 ライト釣りの実装（v2.1） / Light-fishing implementation (v2.1)
+
+**日本語（釣具屋）：** 地図タイル（OpenMapTilesスキーマ）には釣具屋（shop=fishing）が含まれないため、OSMから世界の釣具屋を取り出し、緯度・経度1度ごとのマスのファイル（位置、OSMの種類と番号、名前）と、存在するマスの一覧に分けて同梱する。プレイヤーの周りの9マスだけを読み込み、施設アイコンとして地図に置く。店の点から一定距離（例：40m）以内で入店でき、竿の購入で釣りが解禁される。それまで釣りの画面は出さない。
+
+**English (tackle shops):** Because the map tiles (OpenMapTiles schema) omit tackle shops (shop=fishing), worldwide tackle shops are extracted from OSM and bundled as one file per 1° latitude/longitude cell (position, OSM type and ID, names) plus an index of non-empty cells. Only the nine cells around the player are loaded and placed as facility icons. A shop can be entered within a distance of its point (for example 40 m), and buying a rod unlocks fishing; until then, fishing UI is hidden.
+
+**日本語（水辺の判定）：** 道路データと同じ最大ズームの非表示地図から、水域の面（ocean・dockは海、lake・pondは池、riverは川、プールは除外）と水路の線（river・canal・stream・ditch・drainに種類ごとの半幅を与えて川）を取り出す。プレイヤーの周りを16方向×複数の半径（例：2〜15m）で近い順に調べ、点が面の内側（穴を含む偶奇規則）か線の幅内にある最初の点を、水面の位置と種類とする。地下の高さでは判定しない。
+
+**English (water detection):** From the same hidden max-zoom map used for roads, water polygons (ocean and dock as sea, lake and pond as pond, river as river, swimming pools excluded) and waterway lines (river, canal, stream, ditch, drain as river with type-specific half-widths) are extracted. Points around the player are tested in 16 directions at increasing radii (for example 2–15 m); the first point inside a polygon (even-odd rule with holes) or within a line's width gives the water position and type. Detection is skipped underground.
+
+**日本語（釣りの流れ）：** 状況で中身が変わる一つのボタン（入店／釣る（水域の種類）／待つ／ひく）で操作する。押した瞬間に周りを判定し直し、数フレーム前の情報で動かない。投げる→待つ（乱数の時間）→アタリ（短い時間）の順に進み、アタリの間に押すと釣れ、早すぎる・遅すぎると逃げる。歩き出すと中断する。釣りの最中は画面のどこを押しても「ひく」になる。釣果は水域の種類ごとの候補表から重み付きで選び、サイズは小さい方が出やすい分布とする。ハズレ（長ぐつ）と、夜だけまれに出て釣れない「大きな影」（より良い道具への伏線）を含む。一定数（例：10匹）で店の品ぞろえが増え、図鑑（種類ごとの数と最大サイズ）を記録する。
+
+**English (fishing flow):** A single context button (enter shop / fish (water type) / wait / reel in) drives interaction; the surroundings are re-evaluated at the moment of pressing rather than using information from earlier frames. Casting is followed by a random wait and a short bite window; pressing during the bite lands a catch, while pressing early or late loses it. Walking cancels fishing; during fishing, a tap anywhere reels in. Catches are drawn by weight from per-water-type candidate tables, with sizes skewed small. Outcomes include junk (an old boot) and, at night only and rarely, an uncatchable "large shadow" foreshadowing better tackle. After a number of catches (for example 10), shop inventory expands; a log records count and maximum size per species.
+
+### 12.2 本格釣りとデータ（提案） / Advanced fishing and data (proposed)
 
 **日本語：** 釣りは当初伏せておき、地図上の実在の釣具屋（例：shop=fishing）へゲーム内で行って簡単な竿を買うと解禁する。一定数（例：10匹）釣ると、店に本格的な釣具（竿・リール・ライン・針・ルアー・エサ・オモリ・クーラー等）が並び、ランキングも解禁する。釣りの内容は所持装備の種類と組合せで決め、モード切替スイッチに依存しない。
 
@@ -261,11 +299,21 @@ buildGraph(features):
 
 **English:** Position, level, display settings, and language are saved locally with a version (every few seconds, on settings changes, and when leaving the page) and validated on load. Unreadable saves are ignored and reported, not deleted. For delivery, all files are uploaded to a per-release folder before the link pointing to the live release is switched at once, and hashed files from earlier releases are retained. This prevents pages open during an update from failing to load old files and enables immediate rollback. HTML is revalidated on every load; hashed files are cached long-term.
 
+### 15.1.1 引き継ぎコードと配信の確認（実装、v2.1） / Transfer code and delivery checks (implemented, v2.1)
+
+**日本語：** 引き継ぎコードは、保存データのJSONを圧縮（deflate-raw）してbase64url化したものに、形式を示す接頭辞と、SHA-256の先頭数バイトによるチェックサムを付けた文字列とする。QRコードは、ゲームのURLのフラグメント（#以降。HTTPの要求に含まれない）にコードを入れたリンクとし、開いたらすぐURLから消して、内容（保存日時・散歩距離・釣果・所持金）と上書きされる保存の日時を示し、確認後に保存日時を保ったまま置き換える。チェックサムは破損・欠けの検出のためで、改ざんは防げない。サーバーに使用記録を持たないため何度でも使え、他人に渡せば同じ進み具合で遊べる。他人と競う要素では、アカウントに結びついたサーバー側の記録だけを正式とする。
+
+**English:** The transfer code is the save JSON compressed (deflate-raw) and base64url-encoded, with a format prefix and a checksum from the first bytes of SHA-256. The QR code is a link carrying the code in the URL fragment (after #, not included in HTTP requests); on opening, the code is removed from the URL, a summary (save time, walked distance, catches, money) and the time of the save to be overwritten are shown, and after confirmation the save is replaced with its original save time. The checksum detects corruption or truncation but cannot prevent tampering. With no server-side usage record, a code can be reused and, if given to another person, lets them play with the same progress. For competitive elements, only server-side records tied to accounts are authoritative.
+
+**日本語：** 配信では、プロジェクト外の一時フォルダでビルドし、送る前に読み取り権限をそろえる。公開中の版を切り替えた直後に、公開URLのページ・本体のJS・同梱データが取得できるかを確かめ、できなければ直前の版へ自動で戻す。
+
+**English:** For delivery, the build runs in a temporary folder outside the project and read permissions are normalized before upload. Right after switching the live release, the page, main script, and bundled data at the public URL are fetched; if any fails, the previous release is restored automatically.
+
 ### 15.2 検証結果 / Verification results
 
-**日本語：** 以下は2026-10-11〜16、香川県宇多津町周辺（一部ニューヨーク）、開発用デスクトップのブラウザで測定した結果であり、他の地域・端末・データ版での性能や正確性を保証しない。
+**日本語：** 以下は2026-10-11〜10-23、香川県宇多津町・丸亀市周辺（一部ニューヨーク・大阪）、開発用デスクトップのブラウザで測定した結果であり、他の地域・端末・データ版での性能や正確性を保証しない。
 
-**English:** The following were measured from 2026-10-11 to 2026-10-16 around Utazu, Kagawa (partly New York) in a desktop development browser; they do not guarantee performance or accuracy in other regions, devices, or data versions.
+**English:** The following were measured from 2026-10-11 to 2026-10-23 around Utazu and Marugame, Kagawa (partly New York and Osaka) in a desktop development browser; they do not guarantee performance or accuracy in other regions, devices, or data versions.
 
 | 検証 / Check | 結果 / Result |
 |---|---|
@@ -279,12 +327,17 @@ buildGraph(features):
 | 世界での開始 / Worldwide start | タイムズスクエアから約2秒で道に立つ / standing on a road at Times Square in about 2 s |
 | 再開 / Resume | 再読み込み後、保存位置から約2m、言語も保持 / after reload, within about 2 m of the saved position, language retained |
 | 壊れた保存 / Broken save | 消さずに無視し、タイトル画面で案内 / ignored without deletion, with a notice on the title screen |
+| 釣具屋データ（v2.1） / Tackle-shop data (v2.1) | 世界7,610軒を1,955マスに分割、合計約425KB。宇多津駅から最寄りは約2.3km / 7,610 shops worldwide in 1,955 cells, about 425 KB total; nearest to Utazu Station about 2.3 km |
+| ライト釣り（v2.1） / Light fishing (v2.1) | 竿の購入、海・川・池でそれぞれの魚、早すぎ・逃げられた、10匹目で入荷、再読み込み後も進み具合を保持。抽選4,000回で夜の影6.7%・昼0%、ハズレ6.4%、最大14cm / rod purchase, catches at sea, river, and pond, early/missed cases, unlock at the 10th catch, progress kept after reload; over 4,000 draws: night shadow 6.7%, day 0%, junk 6.4%, max 14 cm |
+| 現在地からの開始（v2.1） / Start from location (v2.1) | 擬似的な位置情報で、大阪駅で7m、宇多津駅のホーム付近で22m（主な道路網の上）。拒否・時間切れの案内 / with simulated positions, 7 m at Osaka Station and 22 m near the Utazu platform (on the main network); denial and timeout messages |
+| 速度・距離（v2.1） / Speed and distance (v2.1) | 歩き約5km/h・走り約10km/hの表示、縮尺はz18で20m・z19で10m、散歩距離は再読み込み後も保持 / about 5 km/h walking and 10 km/h running displayed; scale 20 m at z18 and 10 m at z19; walked distance kept after reload |
+| 引き継ぎコード（v2.1） / Transfer code (v2.1) | 典型的な保存で約290文字。読み戻しで同じ内容、1文字の変更・途中で切れたコードを拒否、QRのリンクから確認画面 / about 290 characters for a typical save; round trip preserved content; one-character change and truncation rejected; QR link opened the confirmation |
 
 ## 16. 参照実装・工程・残る決定 / Reference implementation, stages, and open decisions
 
-**日本語：** 参照実装はVite 8.3.4、JavaScript（フレームワークなし）、MapLibre GL JS 6.13.0、OpenFreeMapのベクタータイル（OpenMapTilesスキーマ）、Twemoji 17.0.3。v1.0で選択していたPixi.jsのタイル試作は旧試作として残し、本実装では使わない。Viteの依存の事前バンドルではMapLibreがWorkerの場所を見失うため、Worker URLを明示する。2026-10-16に実機確認版を https://roadvania.tarp.tokyo に公開した（検索エンジンに載せない設定）。
+**日本語：** 参照実装はVite 8.3.4、JavaScript（フレームワークなし）、MapLibre GL JS 6.13.0、OpenFreeMapのベクタータイル（OpenMapTilesスキーマ）、Twemoji 17.0.3、QRコードの描画に qrcode-generator 2.0.4。v1.0で選択していたPixi.jsのタイル試作は旧試作として残し、本実装では使わない。Viteの依存の事前バンドルではMapLibreがWorkerの場所を見失うため、Worker URLを明示する。2026-10-16に実機確認版を https://roadvania.tarp.tokyo に公開した（検索エンジンに載せない設定）。
 
-**English:** The reference implementation uses Vite 8.3.4, JavaScript without a framework, MapLibre GL JS 6.13.0, OpenFreeMap vector tiles (OpenMapTiles schema), and Twemoji 17.0.3. The Pixi.js tile prototype selected in v1.0 is kept as a legacy prototype and not used. Because Vite's dependency pre-bundling makes MapLibre lose its worker location, the worker URL is set explicitly. A device-test build was published at https://roadvania.tarp.tokyo on 2026-10-16 (excluded from search engines).
+**English:** The reference implementation uses Vite 8.3.4, JavaScript without a framework, MapLibre GL JS 6.13.0, OpenFreeMap vector tiles (OpenMapTiles schema), Twemoji 17.0.3, and qrcode-generator 2.0.4 for QR codes. The Pixi.js tile prototype selected in v1.0 is kept as a legacy prototype and not used. Because Vite's dependency pre-bundling makes MapLibre lose its worker location, the worker URL is set explicitly. A device-test build was published at https://roadvania.tarp.tokyo on 2026-10-16 (excluded from search engines).
 
 | 段階 / Stage | 内容 / Work | 状態 / Status |
 |---|---|---|
@@ -292,7 +345,8 @@ buildGraph(features):
 | M1 歩く土台 / Walking foundation | 道路グラフ・立体交差、入力 / Road graph, grade separation, input | 完了（パッド実機は未確認） / Done (physical gamepads unverified) |
 | M2 見た目 / Visuals | 色の統一、施設、看板、Twemoji、水辺、橋の下 / Quantization, facilities, signs, Twemoji, water, under-bridge | 完了 / Done |
 | M3 散歩MVP / Walking MVP | タイトル、保存、言語、設定、起動失敗の案内 / Title, save, languages, settings, boot guard | 完了 / Done |
-| M4〜M9 | 旅の便利機能、ライト釣り、釣り・経済、マルチ・交流、時間・天気・追体験、運営 / Travel tools, light fishing, fishing and economy, multiplayer, time/weather/replay, operations | 未着手 / Not started |
+| M5 ライト釣り / Light fishing | 実在の釣具屋、竿、水辺判定、小魚、10匹で入荷、図鑑 / Real tackle shops, rod, water detection, small fish, unlock at 10, log | 完了（v2.1） / Done (v2.1) |
+| M4・M6〜M9 | 旅の便利機能、本格釣り・経済、マルチ・交流、時間・天気・追体験、運営 / Travel tools, advanced fishing and economy, multiplayer, time/weather/replay, operations | 未着手 / Not started |
 
 **日本語：** 未決事項：地図タイルの自前配信と障害時の代替、ワープの制限方式、検索・郵便番号・経路の提供元、位置情報と位置履歴のプライバシー設計、釣りの判定距離と釣果表、FishBaseの利用許諾とGBIFのライセンス選別、売値・鮮度・RV収入、車の課金時計、マルチの同期設計とVPSの負荷試験、時刻源と天気の提供元、店舗コラボの発火条件、UIフレームワーク、端末間の引き継ぎ。技術例の記載は製品採用の決定ではない。
 
@@ -304,6 +358,10 @@ buildGraph(features):
 
 **English:** OSM roads, facilities, names, access rules, bridge/tunnel and water data may be missing, incorrect, or outdated, and vector tiles simplify geometry at their maximum zoom. Virtual walking does not guarantee safe passage, business status, or permission to cross private land. OSM is under ODbL; OpenMapTiles schema- and style-derived parts carry their own licenses; OpenFreeMap's public instance requires attribution ("OpenFreeMap © OpenMapTiles Data from OpenStreetMap") and offers no service-level guarantee. Twemoji graphics are CC BY 4.0, with attribution shown on screen. MapLibre GL JS, Vite, and other software follow their licenses. Unlimited use of public Nominatim or similar services is not assumed. FishBase and GBIF terms are checked per use and dataset. Names in map data do not license store logos or product images. "Diamond/Pearl-like" and "as smooth as Stardew Valley" are stylistic references and imply no use of those works' names or assets. [OSM copyright](https://www.openstreetmap.org/copyright), [Tile policy](https://operations.osmfoundation.org/policies/tiles/), [OpenFreeMap](https://openfreemap.org/), [Twemoji](https://github.com/jdecked/twemoji)
 
+**日本語（v2.1の追加）：** 同梱する釣具屋データはOSMから取り出したデータベースであり、ODbLの帰属表示と派生データベースの条件に従う（出典を同梱）。OSMに登録されていない釣具屋は現れない。現在地の座標は送信しないが、表示する地図タイルの取得により見ている地域は地図サーバーに伝わる。引き継ぎコードには最後の位置が含まれる。
+
+**English (added in v2.1):** The bundled tackle-shop data is a database extracted from OSM and follows ODbL attribution and derivative-database terms (attribution is bundled). Tackle shops not registered in OSM do not appear. Current-location coordinates are not sent, but fetching map tiles reveals the viewed area to the tile server. Transfer codes include the last position.
+
 **日本語：** 公開する場合は、ログイン不要で公衆が読める場所に本版を掲載し、実際の公開日時、永続URLまたはコミットID、公開版のSHA-256を記録する。SHA-256は内容の同一性確認に使えるが、単独では公開日時の証明にならない。旧公開版はリポジトリの履歴で保持する。本書の作成によって外部公開は行われていない。
 
 **English:** When published, this edition is posted at a publicly readable location without login, recording the actual release time, persistent URL or commit ID, and SHA-256 of the released file. SHA-256 checks content identity but does not alone prove publication time. Prior public versions are preserved in the repository history. Preparing this file has not published it externally.
@@ -312,20 +370,20 @@ buildGraph(features):
 
 **English:** This edition was posted to the repository above at 2026-10-16 15:55:14 JST (commit d69356e). The release record below was added in a later, separate commit, so the SHA-256 of the current file does not match the value recorded for commit d69356e.
 
-| 記録項目 / Record field | v1.0 | v2.0 |
-|---|---|---|
-| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 2026-10-16 15:55:14 JST |
-| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | d69356e9385db7e42c445ea8db5939f98c5315f0 |
-| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | https://github.com/tarp-tokyo/spec/blob/d69356e9385db7e42c445ea8db5939f98c5315f0/roadvania.md |
-| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 563edaac84fd2f980823cd0ff2f46774858c7ef03fd2b1ec68c4205a326829a3（commit d69356e時点の本文 / text as of commit d69356e） |
-| 公開者 / Publisher | tarp.tokyo | tarp.tokyo |
-| 文書ライセンス / Document license | TARP Tools License | TARP Tools License |
+| 記録項目 / Record field | v1.0 | v2.0 | v2.1 |
+|---|---|---|---|
+| 公開日時 / Public release time | 2026-10-09 19:26:53 JST 初回掲載、19:30:12 JST 現行版 / first posted 19:26:53 JST, current text 19:30:12 JST | 2026-10-16 15:55:14 JST | 未記録 / Not yet recorded |
+| コミット / Commit | e092574fba811bf5060d82154bcd1e9630efc25c（初回）、3d0177d5bb7f86e36438c182122c89a0646c3605（現行） / (first), (current) | d69356e9385db7e42c445ea8db5939f98c5315f0 | 公開時に記録 / Record at release |
+| 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/3d0177d5bb7f86e36438c182122c89a0646c3605/roadvania.md | https://github.com/tarp-tokyo/spec/blob/d69356e9385db7e42c445ea8db5939f98c5315f0/roadvania.md | 公開時に記録 / Record at release |
+| SHA-256 | c39f524b0d3dfac77b91e9ef38fc3e7694072a8ba3f25542cd47dfa5fa52518d（現行v1.0本文 / current v1.0 text） | 563edaac84fd2f980823cd0ff2f46774858c7ef03fd2b1ec68c4205a326829a3（commit d69356e時点の本文 / text as of commit d69356e） | 公開時に記録 / Record at release |
+| 公開者 / Publisher | tarp.tokyo | tarp.tokyo | tarp.tokyo |
+| 文書ライセンス / Document license | TARP Tools License | TARP Tools License | TARP Tools License |
 
 ## 18. ライセンスと知的財産 / License and intellectual property
 
-**日本語：** 本仕様書およびRoadvaniaプロジェクトの独自部分には、漢字世界と同じTARP Tools Licenseを指定する。無断複製・改変・再配布・逆コンパイルを禁止する方針とし、具体的な適用条件は[利用規約](https://tools.tarp.tokyo/terms/)を参照する。OSM、OpenMapTiles、OpenFreeMap、MapLibre GL JS、Twemoji、Viteその他の第三者データ・ソフトウェア・素材にはそれぞれのライセンスが適用され、本指定はそれらの条件を上書きしない。規約リンク先の本文は本改訂で全文確認していない。
+**日本語：** 本仕様書およびRoadvaniaプロジェクトの独自部分には、漢字世界と同じTARP Tools Licenseを指定する。無断複製・改変・再配布・逆コンパイルを禁止する方針とし、具体的な適用条件は[利用規約](https://tools.tarp.tokyo/terms/)を参照する。OSM、OpenMapTiles、OpenFreeMap、MapLibre GL JS、Twemoji、qrcode-generator、Viteその他の第三者データ・ソフトウェア・素材にはそれぞれのライセンスが適用され、本指定はそれらの条件を上書きしない。規約リンク先の本文は本改訂で全文確認していない。
 
-**English:** This specification and the original portions of the Roadvania project are designated under the TARP Tools License, matching Kanji the World. The stated policy prohibits unauthorized copying, modification, redistribution, and decompilation; consult the [terms](https://tools.tarp.tokyo/terms/) for applicable conditions. OSM, OpenMapTiles, OpenFreeMap, MapLibre GL JS, Twemoji, Vite, and other third-party data, software, and assets remain subject to their respective licenses; this designation does not override those terms. The full text of the linked terms was not re-verified for this revision.
+**English:** This specification and the original portions of the Roadvania project are designated under the TARP Tools License, matching Kanji the World. The stated policy prohibits unauthorized copying, modification, redistribution, and decompilation; consult the [terms](https://tools.tarp.tokyo/terms/) for applicable conditions. OSM, OpenMapTiles, OpenFreeMap, MapLibre GL JS, Twemoji, qrcode-generator, Vite, and other third-party data, software, and assets remain subject to their respective licenses; this designation does not override those terms. The full text of the linked terms was not re-verified for this revision.
 
 ## 19. 変更履歴 / Revision history
 
@@ -333,3 +391,4 @@ buildGraph(features):
 |---|---|---|
 | 1.0 | 2026-10-09 | 日英併記の防衛公開版。移動、ZIP/NAVI、地域経済、時間・天気の提案実施形態と制約 / Bilingual defensive publication; proposed movement, ZIP/NAVI, regional economy, time/weather embodiments and limitations |
 | 2.0 | 2026-10-16 | 試作実装と検証を反映。追加：ベクタータイルのドット絵描画と色の統一（E）、絵文字のドット絵化と施設アイコン（F）、最大ズームの非表示地図からの道路グラフ構築・接続規則・道幅接触の接続・連結成分（A）、道幅内移動と橋の下の重なり表現（A）、入力統合とタップ移動の経路短縮（B）、地域の看板と多言語の名前選択（C）、釣り（G）、ひとり旅・マルチ・待ち合わせ・旅程・追体験（H）、起動失敗の案内・版付き保存・版切替配信（J）、検証結果、v1.0の公開記録。Pixi.jsのタイル方式からMapLibreのベクタータイル方式へ変更 / Reflects prototype implementation and verification. Adds pixel-art vector rendering with palette quantization (E), emoji pixel sprites and facility icons (F), road graph from a hidden max-zoom map with linking rules, width-contact links, and components (A), corridor movement and under-bridge occlusion (A), input integration and smoothed tap-to-walk (B), area signs and multilingual names (C), fishing (G), solo/multiplayer, meeting, planning, and replay (H), boot guard, versioned saves, and release switching (J), verification results, and the v1.0 release record. Moves from a Pixi.js tile approach to MapLibre vector tiles |
+| 2.1 | 2026-11-02 | v2.0公開後の実装を追加：実在の釣具屋の抽出とマス分割の配信、水辺の種類判定とライト釣りの流れ（G、12.1）、現在地からの開始地点の選び方（8.3）、縮尺バー・散歩距離・早送りとしての速度表示（7.1）、商業施設の種類名表示と実名の保持（11.1.1）、引き継ぎコード（15.1.1）、配信直後の確認と自動の切り戻し（15.1.1）、検証結果の追加、v2.0の公開記録 / Adds work implemented after v2.0: extraction and cell-tiled delivery of real tackle shops, water-type detection and the light-fishing flow (G, 12.1), start-point selection from the current location (8.3), scale bar, walked distance, and fast-forwarded speed display (7.1), category-name display with retained real names (11.1.1), the transfer code (15.1.1), post-deploy check with automatic rollback (15.1.1), additional verification results, and the v2.0 release record |

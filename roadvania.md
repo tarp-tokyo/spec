@@ -6,14 +6,14 @@
 | 項目 / Field | 内容 / Value |
 |---|---|
 | 文書ID / Document ID | ROADVANIA-TD-001 |
-| 版 / Version | 2.3 — 防衛公開 改訂版 / Defensive publication, revised edition |
-| 文書作成日 / Preparation date | 2026-11-02, Asia/Tokyo |
+| 版 / Version | 2.4 — 防衛公開 改訂版 / Defensive publication, revised edition |
+| 文書作成日 / Preparation date | 2026-11-06, Asia/Tokyo |
 | 著者・公開者 / Author and publisher | tarp.tokyo |
 | 文書ライセンス / Document license | TARP Tools License — https://tools.tarp.tokyo/terms/ |
-| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。v2.0：2026-10-16 15:55:14 JST（commit d69356e）。v2.1：2026-11-02 11:32:16 JST（commit 7777545）。v2.2：2026-11-02 14:25:27 JST（commit ee625e1）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). v2.0: 2026-10-16 15:55:14 JST (commit d69356e). v2.1: 2026-11-02 11:32:16 JST (commit 7777545). v2.2: 2026-11-02 14:25:27 JST (commit ee625e1). See Section 17 |
-| 本版の実際の公開日時 / Actual public release time of this version | 2026-11-02 16:01:30 JST（commit 73a62aa）。第17節 / See Section 17 |
+| 前版の公開記録 / Prior release record | v1.0：2026-10-09 19:26:53 JST 初回掲載（commit e092574）、19:30:12 JST 現行版（commit 3d0177d）。v2.0：2026-10-16 15:55:14 JST（commit d69356e）。v2.1：2026-11-02 11:32:16 JST（commit 7777545）。v2.2：2026-11-02 14:25:27 JST（commit ee625e1）。v2.3：2026-11-02 16:01:30 JST（commit 73a62aa）。第17節 / v1.0: first posted 2026-10-09 19:26:53 JST (commit e092574), current text 19:30:12 JST (commit 3d0177d). v2.0: 2026-10-16 15:55:14 JST (commit d69356e). v2.1: 2026-11-02 11:32:16 JST (commit 7777545). v2.2: 2026-11-02 14:25:27 JST (commit ee625e1). v2.3: 2026-11-02 16:01:30 JST (commit 73a62aa). See Section 17 |
+| 本版の実際の公開日時 / Actual public release time of this version | 公開後、第17節に記録する / Recorded in Section 17 after publication |
 | 公開URL / Public URL | https://github.com/tarp-tokyo/spec/blob/main/roadvania.md |
-| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）、ライト釣りと本格釣具の基本（実施形態Gの一部）、経済の基本（実施形態Cの一部）、記録・統計、PWA（ホーム画面への追加と端末への保存）を試作実装し、実機確認版（2026-10-16〜）に反映。測定値は第15節の条件に限る。地域ごとの魚データ・ランキング・車両・マルチ・ZIP・天気などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D), light fishing and basic advanced tackle (part of Embodiment G), basic economy (part of Embodiment C), records and statistics, and a PWA (home-screen install and on-device caching) are implemented as a prototype and deployed to the device-test build (since 2026-10-16). Measured values are limited to the conditions in Section 15. Regional fish data, rankings, vehicles, multiplayer, ZIP, and weather remain proposals |
+| 実装状態 / Implementation status | 散歩MVP（実施形態A・E・F・J、およびB・C・Dの一部）、ライト釣りと本格釣具の基本（実施形態Gの一部）、経済の基本と記録・統計（実施形態Cの一部）、PWA、検索・下見・電車・依頼・案内（実施形態Bの一部、v2.4）、わが家と見下ろしの部屋（v2.4）、図鑑のデータ管理と出来事（v2.4）、じてんしゃ（v2.4）、野鳥観察（v2.4）、新しい配信アドレスへの引っ越し（v2.4）を試作実装し、公開版に反映。測定値は第15節と各節の条件に限る。地域ごとの魚データ・ランキング・車・マルチ・ZIP・天気・ルートの共有などは提案段階 / A walking MVP (Embodiments A, E, F, J and parts of B, C, D), light fishing and basic advanced tackle (part of G), basic economy with records and statistics (part of C), a PWA, search, preview, trains, requests, and guidance (part of B, v2.4), a home with a top-down room (v2.4), field-guide data management and events (v2.4), bicycles (v2.4), birdwatching (v2.4), and moving players to a new serving address (v2.4) are implemented as a prototype and deployed. Measured values are limited to the conditions in Section 15 and each section. Regional fish data, rankings, cars, multiplayer, ZIP, weather, and route sharing remain proposals |
 
 ## 1. 目的・範囲 / Purpose and scope
 
@@ -167,11 +167,27 @@ buildGraph(features):
 
 **English:** The start position snaps to a ground-level road also used by vehicles (for example within 400 m), avoiding isolated pedestrian ways. When resuming, the player returns to a road on the saved level (for example within 30 m). After a rebuild, the player is reattached to a nearby segment on the same level.
 
+### 6.2.1 通行判定・細かい移動・道に沿った滑り（実装、v2.4） / Passability, sub-stepping, and sliding along the road (implemented, v2.4)
+
+**日本語（通行判定）：** 道路データの「歩行者の通行禁止（foot=no）」は、高速道路・自動車専用の道（expressway の印。道路の種類を問わない）・国道クラス（trunk）の時だけ守り、それ以外の一般道では守らない。歩道が別の線で描かれた一般道に foot=no が付けられることがあり、そのまま守ると幹線や2車線の道が歩けず、歩道の線しか通れない・道が途中で途切れる状態になったため。ゲームでは、その道の横の歩道を歩いている扱いとする。この判定はゲームと、将来のルート作成で共通に使う。
+
+**English (passability):** A "no pedestrians" tag (foot=no) is honored only on motorways, motor-vehicle-only roads (the expressway flag, on any road class), and trunk-class roads, and ignored on other ordinary roads. Ordinary roads whose sidewalks are mapped as separate lines are sometimes tagged foot=no; honoring it made main and two-lane roads unwalkable, so that only the sidewalk lines could be used or roads appeared to end abruptly. The game treats the player as walking on the roadside sidewalk. The same rule is shared by the game and the proposed route editor.
+
+**日本語（細かい移動と滑り）：** 1回の移動が大きい時（じてんしゃ・遅い端末）は、1回の移動を例えば0.5m以下に分けて順に進め、道のつなぎ目を飛びこえないようにする。どの向きにも進めない時（道幅＋足元の余裕のちょうど外側にいて、入力に近い向きがすべて道の外へ出る時）は、今の線分に沿って、入力の向きに近い方へ（ほぼ直角なら近い方の端へ）、線分の中心へ寄りながら遅い速さ（例：4割）で進む。これで、歩道の角で止まって動けなくなる状態から抜け出せる。
+
+**English (sub-stepping and sliding):** When a single move is large (on a bicycle or a slow device), it is split into steps of, for example, at most 0.5 m so that road joints are not skipped. When no direction works (the player sits just outside the corridor plus foot tolerance, and every direction near the input leads outside), the player moves along the current segment toward the end closer to the input direction (or the nearer end when the input is nearly perpendicular), pulling toward the segment's centerline, at reduced speed (for example 40%). This frees the player from getting stuck at sidewalk corners.
+
 ### 6.3 橋の下の重なり表現（実装） / Under-bridge occlusion (implemented)
 
 **日本語：** 道路・鉄道・歩道橋の橋の線分と幅、高さを保持する。キャラが橋より低い高さにいるとき、キャラの元画像を毎フレーム表示用キャンバスへ写し、プレイヤーより高い橋の形（幅を持つ線）をキャラのドット座標へ変換して消去合成（destination-out）で消す。これにより下の地図に描かれた橋がキャラの上に見え、橋の下をくぐる表現になる。左右反転の表示ではドット座標も反転させる。
 
 **English:** Bridge segments for roads, railways, and footbridges are stored with width and level. When the character is on a lower level than a bridge, the source sprite is copied to the display canvas each frame, and the shapes of higher bridges (lines with width) are transformed into sprite-dot coordinates and erased with destination-out compositing. The bridge drawn in the underlying map then appears above the character, depicting passage beneath it. Coordinates are mirrored when the sprite is displayed flipped.
+
+### 6.4 道路データ用の見えない地図の作り直し（実装、v2.4） / Rebuilding the hidden road-data map (implemented, v2.4)
+
+**日本語：** 道路グラフの元になる見えない地図（最大ズームの地図）は、力の弱い端末でほかのアプリへ切り替えて戻ると、描画が止まる（WebGL の文脈が失われる）ことがある。そのままでは道路データが古い場所のままになり、進んだ先で道が無い・行き止まりになる。そこで、見えない地図を動かすように頼んだ時刻と、最後に描いた時刻を記録し、頼んでから一定時間（例：5秒）描かない時、または WebGL の文脈が失われている時は、見えない地図を作り直して今の位置から読み込み直す。確かめるのは一定間隔（例：2秒ごと）と、画面が表に戻った時（戻った直後は描き直しを頼み、描かなければ作り直す）。
+
+**English:** On low-powered devices, the hidden max-zoom map that feeds the road graph may stop rendering (losing its WebGL context) after switching to another app and back. The road data then stays at an old location, so roads ahead are missing and paths dead-end. The time the hidden map was last asked to move and the time it last rendered are recorded; if it has not rendered within a period after being asked (for example 5 s), or its WebGL context is lost, the hidden map is recreated and reloads data around the current position. This is checked at an interval (for example every 2 s) and when the page returns to the foreground (a repaint is requested right away, and the map is recreated if it does not render).
 
 ## 7. 入力・縮尺 / Input and scale
 
@@ -222,6 +238,24 @@ buildGraph(features):
 **日本語：** 開始画面で現在地から始める場合、端末の位置情報（利用者の許可が必要、安全な接続のみ）から座標を得る。座標はサーバーへ送らない。開始地点は、その座標から一定範囲（例：100m）の地上の線分のうち、一定数（例：50本）以上の線分からなる連結成分に属する最も近いものとし、小さく孤立した道に降ろさない。許可されない・取得できない・時間切れの場合は理由を示し、ほかの開始方法を選べるようにする。一覧の場所から始める場合は、車も通る地上の道路を優先する別の規則を用いる。
 
 **English:** When starting from the current location, coordinates come from the device's location service (user permission required, secure contexts only) and are not sent to a server. The start point is the nearest ground-level segment within a radius (for example 100 m) that belongs to a connected component of at least a set number of segments (for example 50), avoiding small isolated ways. If permission is denied, no position is available, or a timeout occurs, the reason is shown and other start options remain available. Starting from a listed place uses a different rule preferring ground-level roads also used by vehicles.
+
+### 8.4 検索・下見・電車（実装、v2.4） / Search, preview, and trains (implemented, v2.4)
+
+**日本語：** 近くの施設の検索は、読み込み済みの地図データと同梱の釣具屋データから端末の中で行い、外部へ送らない（お店は種類名、公共の施設は実名で探す）。世界の地名は、利用者が「検索」を押した時だけ、検索した言葉と表示言語を、ゲームの配信サーバーの中継を通して公開の地名検索サービスへ送る（位置は送らない）。中継は、同じ問い合わせ文字列の結果を一定期間（例：30日）覚えて返し、外部への問い合わせをサーバー全体で一定の回数（例：1秒1回、待ち行列つき）に絞り、利用者ごとの回数も絞る。利用者の IP やクッキーは外部へ送らず、アプリとして名乗る。「下見」はカメラだけを結果の場所へ動かし、キャラと道路データはそのままにする。駅の近くでは行き先を選んで運賃（例：基本10 RV＋直線1kmあたり1 RV）を払って移る。遠い行き先（例：500km超）は飛行機として表示する。
+
+**English:** Nearby-facility search runs on the device over loaded map data and the bundled tackle-shop data, sending nothing outside (shops by category name, public facilities by real name). World place names are sent — only when the user presses "Search", and only the query and display language, never the position — through a relay on the game's server to a public geocoding service. The relay caches results for an identical query string for a period (for example 30 days), limits outbound queries for the whole server (for example one per second, with a queue) and per user, sends no user IP or cookies, and identifies itself as the app. "Preview" moves only the camera to a result while the character and road data stay put. Near a station, the player picks a destination and pays a fare (for example 10 RV plus 1 RV per straight-line km) to move; distant destinations (for example over 500 km) are shown as flights.
+
+### 8.5 依頼・ジャーナル・案内（実装、v2.4） / Requests, journal, and guidance (implemented, v2.4)
+
+**日本語：** 地図上の実在の店の種類（スーパー・釣具屋・郵便局・運送会社・コンビニなど）ごとに、依頼の型（仕入れ・釣果報告・おつかい・配達・お届けなど）を用意し、「型＋店のキー＋日付」を種にして毎回同じ依頼を端末の中で作る（サーバー不要）。届け先は近くの公共の施設から距離の範囲（例：250〜1500m）で選ぶ。届いた判定は、届け先の点から一定距離（例：30m）以内、または「届け先から一番近い道までの距離＋余裕（例：15m）」以内とし、点が道から遠い大きな施設でも届けられるようにする。大きな施設の入口は、施設の点を含む建物の形を地図データから探し、建物の縁から一定距離（例：12m）でも入れる。追跡する依頼や検索の結果（例：1.5km以内）を選ぶと、行き先の向きの矢印と距離を出し、道なりに自動で歩く。自動で歩いている間は、メニューや図鑑などの画面を開いても歩き続け、手で歩いた時・お店に入った時にやめる。
+
+**English:** Request templates (restocking, catch reports, errands, parcel deliveries, lunch deliveries, etc.) are defined per real shop category on the map (supermarkets, tackle shops, post offices, couriers, convenience stores), and each request is generated on the device from a seed of template + shop key + date, so the same request appears each time without a server. Destinations are chosen among nearby public facilities within a distance range (for example 250–1500 m). Arrival is accepted within a distance of the destination point (for example 30 m) or within the distance from the destination to its nearest road plus a margin (for example 15 m), so large facilities whose point lies far from roads can still be reached. For large facilities, the building footprint containing the facility point is found in the map data, and the player can also enter within a distance of the building edge (for example 12 m). Choosing a tracked request or a search result (for example within 1.5 km) shows a direction arrow and distance and walks along roads automatically; automatic walking continues while menus, guides, and other screens are open, and stops when the player walks manually or enters a shop.
+
+### 8.6 ルートの作成と共有（提案、v2.4） / Creating and sharing routes (proposed, v2.4)
+
+**日本語：** 散歩ルートを地図上で作り、閲覧・埋め込み・ゲームで開けるようにする。経路計算はブラウザの中で行い、ゲームと同じ地図データから作る道路グラフ・経路探索・通行判定（6.2.1）を共有する。ルートは URL の `#` の後ろ（例：`#r=v1.<payload>`）に置き、サーバーやアクセスログ、ほかのサイトへ渡るアドレスに座標を残さない。中身（経由点・確定した線・題名）の点の列は前の点との差分で符号化し（例：精度1e-5度）、全体を圧縮して Base64url にする（例：200点で約1,000文字）。ゲームでは経由点をもとに、ゲームの今の道路で計算し直して案内し、保存した線は参考として見せる（地図データの更新で線と道がずれるため）。読み込みや解析の失敗で、セーブや所持品を書き換えない。
+
+**English:** Walking routes are drawn on a map and can be viewed, embedded, or opened in the game. Routing runs in the browser, sharing the road graph built from the same map data, the pathfinding, and the passability rule (6.2.1) with the game. A route is carried after the `#` of the URL (for example `#r=v1.<payload>`), so coordinates are not left with servers, access logs, or the address passed to other sites. Point lists in the payload (waypoints, the confirmed line, a title) are delta-encoded against the previous point (for example at 1e-5 degree precision), and the whole is compressed and Base64url-encoded (for example about 1,000 characters for 200 points). The game recomputes guidance from the waypoints over its current roads and shows the stored line for reference, since map-data updates can shift lines and roads apart. Loading or parsing failures never modify the save or inventory.
 
 ## 9. 実施形態E：実地図のドット絵描画（実装） / Embodiment E: pixel-art rendering of real maps (implemented)
 
@@ -293,6 +327,24 @@ buildGraph(features):
 
 **English:** Play records are kept only in the on-device save and never sent to a server (they are included in transfer codes). Items include days played (counted by device date, once per day), current and longest streaks, total play time (while the journey is on screen), journeys started and how they were started, walking distance with distances run and tap-walked, areas visited, facilities discovered, distinct tackle shops entered and shop visits, casts, bites hooked, too-early presses and escapes, catches per water type, species in the log, the largest fish, junk and shadows, releases (hands full / by choice), big-fish fight outcomes, bait used and lures lost, the highest balance, total RV earned with a breakdown by income source, RV spent, fish sold, and the best single sale. The date is rechecked on each save so play across midnight is counted.
 
+### 11.4 わが家と見下ろしの部屋（実装、v2.4） / Home and a top-down room (implemented, v2.4)
+
+**日本語：** 地図上の実在の不動産屋で家を買うと、その店から一定距離（例：150m）以内で一番近い道の上に家を置く。家の位置は端末の保存データの中だけに持ち、サーバーへ送らない。家に入ると、絵文字の家具を1マスに1つ置ける見下ろしの部屋になり、いつもと同じ操作で歩ける。タップした所へは空いたマスを幅優先でたどって歩き、家具をタップすると隣まで歩いてから使う。部屋は広さの段階（例：8×6・12×8・16×10）と階（1階・2階・地下）を持ち、階段のマスは固定位置（例：1階の左下が上り、右下が下り）で、入口の前と階段には家具を置けない。広くした・階を足した時に入口や階段のマスにあった家具は自動でしまう。冷凍庫（鮮度が落ちない）と飾り棚の入る数は、置いている台数×1台あたりの数とし、置いていなくても1台分はある。中身が入りきらなくなる時は、その台をしまえない。家具・増築の値段はデータファイルで持ち、管理画面で直せる。
+
+**English:** Buying a house at a real estate agent on the map places it on the nearest road within a distance of the shop (for example 150 m). The home's position is kept only in the on-device save and never sent to a server. Entering the house opens a top-down room where emoji furniture is placed one item per tile and the player walks with the usual controls; taps walk via breadth-first search over free tiles, and tapping furniture walks next to it before using it. The room has size stages (for example 8×6, 12×8, 16×10) and floors (ground, upper, basement), with stairs at fixed tiles (for example bottom-left up and bottom-right down on the ground floor); furniture cannot be placed on the entrance or stair tiles and is put away automatically when an extension or a new floor makes its tile reserved. Freezer (no freshness loss) and display-shelf capacities are the number of placed units times a per-unit capacity, with at least one unit's worth; a unit cannot be put away if its contents would no longer fit. Furniture and extension prices are kept in data files editable in an admin screen.
+
+### 11.5 効き目の品物・パンくず・持ち物（実装、v2.4） / Effect items, breadcrumbs, and inventory (implemented, v2.4)
+
+**日本語：** コンビニなどで買う品物は持ち物に入り、使うと一定時間（例：30分。遊んでいる時間で減り、続けて使うと延びて上限は例：2時間）効き目が続く（例：散歩の収入1.5倍、歩く速さ1.15倍、手持ちの魚の鮮度の落ち方が半分）。「パンくず」は今いる場所（高さ・地域名・時刻）を1か所だけ覚え、次の回にそこから始められる（使うと消える）。持ち物の画面は消耗品・大事なもの・服飾品に分け、使える物は確かめてから使う。
+
+**English:** Items bought at convenience stores and elsewhere go into the inventory and, when used, give an effect for a time (for example 30 minutes, decreasing with play time and extendable by using more, up to for example 2 hours), such as 1.5× walking income, 1.15× walking speed, or halved freshness loss for carried fish. A "breadcrumb" remembers one spot (level, area name, time) so the next session can start there; it is consumed when used. The inventory screen separates consumables, key items, and wearables, and usable items are confirmed before use.
+
+### 11.6 じてんしゃ（実装、v2.4） / Bicycles (implemented, v2.4)
+
+**日本語：** 地図上の実在の自転車屋で3択の検定（例：問題の中からランダムに5問、4問以上で合格）を受けると免許が得られ、免許があると自転車を買える。検定の問題はデータファイルで持ち、管理画面で追加・編集する。乗っている間は種類ごとの倍率（例：歩きの2.5倍・3.5倍）で進み、走る操作で立ちこぎ（例：×1.3）、階段の道では押して歩く。散歩距離には数えず別に記録し、散歩の収入は一定の割合（例：半分）にする。走った距離で汚れ（例：1kmあたり2%、一定以上で見た目がくすみ、さらに上で少し遅くなる）がたまり、点検してからの距離が一定（例：100km）を超えるとパンクしやすくなる（例：1kmあたり0.4%＋超えた距離に比例して増える）。パンクしたら降り、店や修理キットで直す。自転車は折りたたみでいつも持ち物にあり、降りる・店に入る・釣る・電車に乗る・別の場所から始める時は自動でたたむ（止めておく位置を持たないので、なくならない）。同じ種類は1台だけで、持っている種類から乗るものを選ぶ。
+
+**English:** Passing a three-choice test at a real bicycle shop on the map (for example 5 random questions from a pool, passing with 4 or more) grants a license, which is required to buy a bicycle. Questions are kept in a data file and edited in the admin screen. While riding, the player moves at a per-type multiplier (for example 2.5× or 3.5× walking), the run input pedals standing up (for example ×1.3), and the bike is pushed on stairs. Distance ridden is recorded separately from walking distance, and walking income is reduced by a ratio (for example half). Dirt builds up with distance (for example 2% per km; above thresholds the sprite dulls and then speed drops slightly), and once the distance since a checkup exceeds a value (for example 100 km) flats become likely (for example 0.4% per km plus an increase proportional to the excess). After a flat the player gets off and repairs it at a shop or with a repair kit. The bicycle folds and always stays in the inventory; it folds automatically when getting off, entering a shop, fishing, taking a train, or starting elsewhere (no parked position is kept, so it cannot be lost). Only one of each type can be owned, and the player chooses which owned type to ride.
+
 ## 12. 実施形態G：釣り（ライト釣りと本格釣具の基本は実装、地域ごとの魚データなどは提案） / Embodiment G: fishing (light fishing and basic advanced tackle implemented; regional fish data and more proposed)
 
 ### 12.1 ライト釣りの実装（v2.1） / Light-fishing implementation (v2.1)
@@ -336,6 +388,28 @@ buildGraph(features):
 **日本語（押し続ける操作）：** 巻く操作は、アクションボタンを押している間、決定のキー（Space・Enter・F）を押している間、ゲームパッドの決定ボタンを押している間、またはやりとり中に地図の上を押している間とし、いずれかが押されていれば巻く。ボタンを押した後はフォーカスを外し、キーの長押しがボタンに奪われないようにする。やりとり中は歩かず、タップによる自動移動も始めない。
 
 **English (holding input):** Reeling happens while any of the following is held: the action button, a confirm key (Space, Enter, F), the gamepad confirm button, or, during a fight, any point on the map. Focus is removed from the button after pressing so a held key is not captured by the button. During a fight the character does not walk and tap-to-walk does not start.
+
+### 12.4 図鑑のデータ・管理画面・出来事（実装、v2.4） / Field-guide data, admin screen, and events (implemented, v2.4)
+
+**日本語：** 生き物は種類（魚・昆虫・野鳥）ごとの JSON ファイルで持ち、状態（公開・下書き・お休み）、一度だけ使う図鑑番号、名前（3言語）、学名と生物多様性データベースの分類番号、レア度、すむ場所、時間帯ごとの出やすさ、月ごとの倍率、採り方などを持つ。説明文は別のファイルにする。出やすさの計算（時間帯の重み×月の倍率×出来事の倍率）はゲームと管理画面の試し計算で同じ関数を使う。管理画面は開発用の端末の中だけで動き、保存の前にゲームと同じ決まりで中身を確かめ、書き換える前の中身を控える。記録は種ごとに見つけた数・最大・初発見の日と地域（地域名だけで座標は残さない）・採り方の内訳を持つ。本屋・図書館で図鑑を見せると、達成数に応じたご褒美と称号を一度ずつ渡す。
+
+**English:** Species are kept in a JSON file per kind (fish, insects, birds), with status (live, draft, rest), a guide number used only once, names in three languages, scientific name and taxon key from a biodiversity database, rarity, habitats, per-time-slot weights, monthly multipliers, and methods; descriptions live in separate files. The likelihood (time-slot weight × monthly multiplier × event multiplier) is computed by the same function in the game and in the admin screen's trial calculator. The admin screen runs only on the development machine, validates content with the same rules as the game before saving, and backs up the previous content. Records per species hold the count, maximum, first-found date and area (area name only, no coordinates), and a breakdown by method. Showing a guide at a bookstore or library hands out rewards and titles once each according to the number found.
+
+**日本語（出来事）：** 大量発生などの「出来事」は、期間（毎年くり返す月日・年またぎ可）またはランダムで起きる。ランダムは「出来事のID＋開始日＋地域のマス（例：緯度・経度0.5度）」をハッシュ（例：FNV-1a のあと混ぜる関数）にかけた値でくじを引き、サーバーなしで同じ地域・同じ日の全員が同じ結果になる。隣のマスや次の日とは関係しないことを確かめる（例：3か月分で、起きる割合15.2%、隣のマスも起きている割合15.3%、次の日15.2%）。起きている間は対象の種の出やすさに倍率をかけ、出来事の時だけ出る種も作れる。
+
+**English (events):** Events such as bumper catches occur over periods (yearly month-day ranges, which may span New Year) or at random. Random events draw from a hash (for example FNV-1a followed by a mixing function) of event ID + start date + a regional grid cell (for example 0.5° of latitude and longitude), so everyone in the same area on the same day sees the same result without a server. Independence from neighboring cells and the next day is checked (for example over three months: 15.2% occurrence, 15.3% for a neighboring cell also occurring, 15.2% for the next day). While active, multipliers apply to target species, and event-only species are possible.
+
+### 12.5 手持ちの入れ替え・クーラーの段階（実装、v2.4） / Swapping carried fish and cooler tiers (implemented, v2.4)
+
+**日本語：** 手持ちがいっぱいの時に釣れたら、すぐ逃がさず、釣れた魚と手持ちの一覧（大きさ・鮮度・今の売値。いちばん安い魚に印）を並べ、入れ替えるか逃がすかを選ばせる。クーラーは段階（例：10・20・30匹）を持ち、店には持っている段階の1つ上を並べる。
+
+**English:** When a fish is caught with full hands, instead of releasing it immediately, the catch and the carried list (size, freshness, current sale price, with the cheapest marked) are shown so the player can swap or release. Coolers have tiers (for example 10, 20, 30 fish), and shops offer the tier above the one owned.
+
+### 12.6 野鳥観察（実装、v2.4） / Birdwatching (implemented, v2.4)
+
+**日本語：** 鳥は見るだけで、つかまえたり売ったりしない。双眼鏡を持って歩くと、進んだ距離が一定の範囲（例：140〜280m）のどこかに来るたびに一定の確率（例：60%）で、道の近く・一定距離（例：20〜40m）先に鳥が現れる。初めは黒い影で示し、正体は分からない。現れる種は、今いる所の近くの「すむ場所」と鳥のすむ場所が重なる種から、時間帯・月・出来事の倍率で選ぶ。すむ場所は、道路と同じ見えない地図の土地の覆い（森・草地・公園・田畑など）と土地の使われ方（住宅地・墓地・運動場など）の多角形、釣りと同じ水面の判定、近くの建物から判定する（例：森・公園・水辺・街。どれにも当たらない時は街）。一定距離（例：15m）まで近づくと観察でき、観察の間（例：2.5秒）動かないでいると記録する。走る・自転車で進んだまま一定距離（例：25m）以内に入ると飛んで逃げる。一定時間（例：40秒）たつか遠く（例：90m）へ離れると飛んでいく。記録には、ほかの図鑑と同じ項目に加えて、いちばん近くで観察した距離を残す。鳥が現れる知らせは、持ち物の双眼鏡から止められる。
+
+**English:** Birds are only watched — never caught or sold. While carrying binoculars, each time the distance moved reaches a point within a range (for example 140–280 m), a bird appears with a probability (for example 60%) near a road at a distance (for example 20–40 m). It is first shown as a dark silhouette with its identity unknown. The species is chosen from those whose habitats overlap the habitats near the player, weighted by time slot, month, and event multipliers. Habitats are determined from land-cover polygons (wood, grass, parks, farmland, etc.) and land-use polygons (residential, cemeteries, pitches, etc.) in the same hidden map as the roads, the same water detection as fishing, and nearby buildings (for example forest, park, waterside, town; town when none applies). Within a distance (for example 15 m) the player can observe; staying still for the observation time (for example 2.5 s) records the bird. Approaching within a distance (for example 25 m) while running or riding makes it fly away; it also leaves after a time (for example 40 s) or when the player is far away (for example 90 m). Records hold the same items as other guides plus the closest observation distance. Bird notices can be turned off from the binoculars in the inventory.
 
 ## 13. 実施形態H：ひとり旅・マルチ・待ち合わせ・旅程・追体験（提案） / Embodiment H: solo, multiplayer, meeting, planning, and replay (proposed)
 
@@ -389,6 +463,12 @@ buildGraph(features):
 
 **English (preventing overwrite by a stale page):** When switching between a browser tab and the home-screen app that share the same storage, a page left in the background may hold stale data and overwrite a newer save at its next autosave. Each page remembers the save time it last read or wrote; before saving and when the page returns to the foreground, if the stored save time is newer (another page saved later), it reloads instead of overwriting. While in the background it only stops saving and reloads when it returns to the foreground. After reloading, the title screen reports that progress from another page was loaded. On some devices the home-screen app's storage is separate from the browser's; users are then guided to move progress with a transfer code.
 
+### 15.1.3 新しい配信アドレスへの引っ越しとセキュリティヘッダー（実装、v2.4） / Moving to a new serving address and security headers (implemented, v2.4)
+
+**日本語：** ブラウザの保存領域は配信アドレス（オリジン）ごとに別なので、配信アドレスを変えると保存データは自動では移らない。旧アドレスと新しいアドレスで同じ版を並行して配り、旧アドレスで開いた時だけ「新しい場所へ引っ越す」を出す。押すと保存を確定してから、今の保存データを引き継ぎコード（圧縮・チェックサムつき）にして、新しいアドレスの URL の `#` の後ろ（例：`#import=<コード>`）に入れて新しいタブで開く。`#` の後ろはサーバーへ送られない。ポップアップとして止められないよう、先に空のタブを開いてから行き先を入れる。新しいアドレスは読み込んだらすぐ URL からコードを消し、いつもの検証（形式・チェックサム・全項目）をして、今その端末にある保存データと並べて確認する。引き継ぐ時は、今の保存データを別の場所に控えてから書き、読み戻して保存日時が一致するか確かめ、だめなら控えに戻す。旧アドレスの保存データは消さない。その後、一定期間後に旧アドレスを開くとページ自身が保存データを読んで新しいアドレスへ移る段階を経て、十分な期間の後にサーバーでの転送に切り替える（サーバーの転送では旧アドレスのページが動かず、保存データを読み出せなくなるため）。新しいアドレスでは、まず「報告だけ」の Content-Security-Policy を配り、起動用のインラインスクリプトは中身のハッシュで許可する。違反として報告されたインラインのイベント処理（再読み込みボタン）は、同じページへのリンクに置き換えた。
+
+**English:** Browser storage is separate per serving address (origin), so changing the address does not move saves automatically. The same release is served in parallel at the old and new addresses, and only the old address shows "Move to the new address". Pressing it commits the save, encodes the current save as a transfer code (compressed, with a checksum), and opens the new address in a new tab with the code after the URL's `#` (for example `#import=<code>`); text after `#` is not sent to servers. To avoid popup blocking, an empty tab is opened first and then given the destination. The new address removes the code from the URL immediately after reading it, runs the usual validation (format, checksum, every field), and shows it beside any save already on that device. On loading, the existing save is backed up to another key before writing, the written save is read back to check the save time, and the backup is restored on failure. The old address's save is not deleted. Later, after a period, opening the old address makes the page itself read the save and move to the new address; only after a sufficient period is a server-side redirect used, since with a redirect the old page no longer runs and saves can no longer be read. The new address first serves a report-only Content-Security-Policy, allowing the inline boot script by the hash of its content; an inline event handler reported as a violation (a reload button) was replaced by a link to the same page.
+
 ### 15.2 検証結果 / Verification results
 
 **日本語：** 以下は2026-10-11〜10-23、日本国内の地方都市の周辺（一部ニューヨーク・大阪）、開発用デスクトップのブラウザで測定した結果であり、他の地域・端末・データ版での性能や正確性を保証しない。
@@ -426,9 +506,9 @@ buildGraph(features):
 
 ## 16. 参照実装・工程・残る決定 / Reference implementation, stages, and open decisions
 
-**日本語：** 参照実装はVite 8.3.4、JavaScript（フレームワークなし）、MapLibre GL JS 6.13.0、OpenFreeMapのベクタータイル（OpenMapTilesスキーマ）、Twemoji 17.0.3、QRコードの描画に qrcode-generator 2.0.4。v1.0で選択していたPixi.jsのタイル試作は旧試作として残し、本実装では使わない。Viteの依存の事前バンドルではMapLibreがWorkerの場所を見失うため、Worker URLを明示する。2026-10-16に実機確認版を https://roadvania.tarp.tokyo に公開した（検索エンジンに載せない設定）。
+**日本語：** 参照実装はVite 8.3.4、JavaScript（フレームワークなし）、MapLibre GL JS 6.13.0、OpenFreeMapのベクタータイル（OpenMapTilesスキーマ）、Twemoji 17.0.3、QRコードの描画に qrcode-generator 2.0.4。v1.0で選択していたPixi.jsのタイル試作は旧試作として残し、本実装では使わない。Viteの依存の事前バンドルではMapLibreがWorkerの場所を見失うため、Worker URLを明示する。2026-10-16に実機確認版を https://roadvania.tarp.tokyo に公開した（検索エンジンに載せない設定。2026-11-03から検索に載せる設定）。2026-11-06から https://play.roadvania.com でも同じ版を配り、旧アドレスからの引っ越しを始めた（15.1.3）。
 
-**English:** The reference implementation uses Vite 8.3.4, JavaScript without a framework, MapLibre GL JS 6.13.0, OpenFreeMap vector tiles (OpenMapTiles schema), Twemoji 17.0.3, and qrcode-generator 2.0.4 for QR codes. The Pixi.js tile prototype selected in v1.0 is kept as a legacy prototype and not used. Because Vite's dependency pre-bundling makes MapLibre lose its worker location, the worker URL is set explicitly. A device-test build was published at https://roadvania.tarp.tokyo on 2026-10-16 (excluded from search engines).
+**English:** The reference implementation uses Vite 8.3.4, JavaScript without a framework, MapLibre GL JS 6.13.0, OpenFreeMap vector tiles (OpenMapTiles schema), Twemoji 17.0.3, and qrcode-generator 2.0.4 for QR codes. The Pixi.js tile prototype selected in v1.0 is kept as a legacy prototype and not used. Because Vite's dependency pre-bundling makes MapLibre lose its worker location, the worker URL is set explicitly. A device-test build was published at https://roadvania.tarp.tokyo on 2026-10-16 (excluded from search engines; indexable since 2026-11-03). Since 2026-11-06 the same release is also served at https://play.roadvania.com, and moving players from the old address has begun (15.1.3).
 
 | 段階 / Stage | 内容 / Work | 状態 / Status |
 |---|---|---|
@@ -440,7 +520,9 @@ buildGraph(features):
 | M6a 経済の基本 / Basic economy | 鮮度・持てる数・クーラー・スーパー・釣り以外の収入、記録・統計 / Freshness, carrying limits, cooler, supermarkets, non-fishing income, records and statistics | 完了（v2.3） / Done (v2.3) |
 | M6b 本格釣具 / Advanced tackle | 竿・ライン・エサ・ルアー、大物とのやりとり、ぬし / Rod, line, bait, lures, big-fish fight, master fish | 完了（v2.3） / Done (v2.3) |
 | PWA | ホーム画面への追加、端末への保存、保存の上書き防止 / Home-screen install, on-device caching, overwrite prevention | 完了（v2.3） / Done (v2.3) |
-| M4・M6の残り・M7〜M9 / M4, rest of M6, M7–M9 | 旅の便利機能、地域ごとの魚データ・ランキング・車両、マルチ・交流、時間・天気・追体験、運営 / Travel tools, regional fish data, rankings, vehicles, multiplayer, time/weather/replay, operations | 未着手 / Not started |
+| M4 旅の便利機能 / Travel tools | 検索・下見・電車、依頼・ジャーナル・案内、パンくず、効き目の品物、メニューの並べ替え・持ち物 / Search, preview, trains, requests, journal, guidance, breadcrumbs, effect items, menu arrangement, inventory | 完了（v2.4） / Done (v2.4) |
+| M6 の続き / More of M6 | 図鑑のデータ管理・出来事・本屋と図書館の評価、わが家と部屋、じてんしゃ、野鳥観察 / Field-guide data management, events, bookstore and library ratings, home and room, bicycles, birdwatching | 完了（v2.4） / Done (v2.4) |
+| 残り / Remaining | 地域ごとの魚データ・ランキング・車・昆虫、ルートの共有、マルチ・交流、時間・天気・追体験、運営 / Regional fish data, rankings, cars, insects, route sharing, multiplayer, time/weather/replay, operations | 未着手 / Not started |
 
 **日本語：** 未決事項：地図タイルの自前配信と障害時の代替、ワープの制限方式、検索・郵便番号・経路の提供元、位置情報と位置履歴のプライバシー設計、釣りの判定距離と釣果表、FishBaseの利用許諾とGBIFのライセンス選別、売値・鮮度・RV収入・本格釣具の数値の調整、車の課金時計、マルチの同期設計とVPSの負荷試験、時刻源と天気の提供元、店舗コラボの発火条件、UIフレームワーク、端末間の引き継ぎ。技術例の記載は製品採用の決定ではない。
 
@@ -455,6 +537,10 @@ buildGraph(features):
 **日本語（v2.1の追加）：** 同梱する釣具屋データはOSMから取り出したデータベースであり、ODbLの帰属表示と派生データベースの条件に従う（出典を同梱）。OSMに登録されていない釣具屋は現れない。現在地の座標は送信しないが、表示する地図タイルの取得により見ている地域は地図サーバーに伝わる。引き継ぎコードには最後の位置が含まれる。
 
 **English (added in v2.1):** The bundled tackle-shop data is a database extracted from OSM and follows ODbL attribution and derivative-database terms (attribution is bundled). Tackle shops not registered in OSM do not appear. Current-location coordinates are not sent, but fetching map tiles reveals the viewed area to the tile server. Transfer codes include the last position.
+
+**日本語（v2.4の追加）：** 生き物の学名・分類番号は、生物多様性データベース（GBIF）の照合で一致・受理された名前を使う。土地の覆い・使われ方・水面の多角形も OSM 由来で、欠損・誤りがあり得るため、すむ場所の判定は目安である。地名検索の中継は、外部サービスの利用方針（全体の回数・結果の使い回し・名乗り）に合わせて運用し、提供元を切り替えられるようにする。配信アドレスを変えても、利用者の保存データは各自の端末の中にあり、運営者は持たない。
+
+**English (added in v2.4):** Scientific names and taxon keys are those confirmed as exact and accepted by matching against a biodiversity database (GBIF). Land-cover, land-use, and water polygons also come from OSM and may be missing or incorrect, so habitat detection is approximate. The geocoding relay is operated according to the external service's usage policy (overall rate, reuse of results, identification) and can be switched to another provider. Even when the serving address changes, players' saves stay on their own devices and are not held by the operator.
 
 **日本語：** 公開する場合は、ログイン不要で公衆が読める場所に本版を掲載し、実際の公開日時、永続URLまたはコミットID、公開版のSHA-256を記録する。SHA-256は内容の同一性確認に使えるが、単独では公開日時の証明にならない。旧公開版はリポジトリの履歴で保持する。本書の作成によって外部公開は行われていない。
 
@@ -500,3 +586,4 @@ buildGraph(features):
 | 2.1 | 2026-11-02 | v2.0公開後の実装を追加：実在の釣具屋の抽出とマス分割の配信、水辺の種類判定とライト釣りの流れ（G、12.1）、現在地からの開始地点の選び方（8.3）、縮尺バー・散歩距離・早送りとしての速度表示（7.1）、商業施設の種類名表示と実名の保持（11.1.1）、引き継ぎコード（15.1.1）、配信直後の確認と自動の切り戻し（15.1.1）、検証結果の追加、v2.0の公開記録 / Adds work implemented after v2.0: extraction and cell-tiled delivery of real tackle shops, water-type detection and the light-fishing flow (G, 12.1), start-point selection from the current location (8.3), scale bar, walked distance, and fast-forwarded speed display (7.1), category-name display with retained real names (11.1.1), the transfer code (15.1.1), post-deploy check with automatic rollback (15.1.1), additional verification results, and the v2.0 release record |
 | 2.2 | 2026-11-02 | 表記の整理のみ：検証地域の地名を一般的な表現に置き換え、見た目・操作感の目標から既存作品の名称を除いた。技術内容の変更なし / Wording cleanup only: test-area place names replaced with general descriptions and names of existing works removed from the visual and handling goals; no technical changes |
 | 2.3 | 2026-11-02 | v2.1公開後の実装を追加：画面の配置（利き手・横画面・出典表示・不足額の表示、7.2）、模様が描けない端末での水面（9.1）、経済の基本（鮮度・持てる数・保冷・売値・釣り以外の収入、11.2.1）、記録・統計（11.3）、本格釣具と大物とのやりとり・ぬし・押し続ける操作（12.3）、PWAと古い画面による上書きの防止（15.1.2）、検証結果の追加、v2.1・v2.2の公開記録 / Adds work implemented after v2.1: layout (handedness, landscape, attribution, shortfall display, 7.2), water on devices that fail pattern drawing (9.1), basic economy (freshness, carrying limits, cooling, prices, non-fishing income, 11.2.1), records and statistics (11.3), advanced tackle, big-fish fights, master fish, and holding input (12.3), PWA and stale-page overwrite prevention (15.1.2), additional verification results, and the v2.1 and v2.2 release records |
+| 2.4 | 2026-11-06 | v2.3公開後の実装と提案を追加：通行判定（一般道の foot=no）・細かい移動・道に沿った滑り（6.2.1）、見えない地図の作り直し（6.4）、検索・下見・電車と地名検索の中継（8.4）、依頼の決定的な生成・届いた判定・大きな施設の入口・案内と画面を開いても続く自動移動（8.5）、ルートの作成と共有（提案、8.6）、わが家と見下ろしの部屋（11.4）、効き目の品物・パンくず・持ち物（11.5）、じてんしゃ（11.6）、図鑑のデータ・管理画面・出来事の決定的なくじ（12.4）、手持ちの入れ替え・クーラーの段階（12.5）、野鳥観察とすむ場所の判定（12.6）、新しい配信アドレスへの引っ越しとセキュリティヘッダー（15.1.3）、工程表の更新、v2.3の公開記録 / Adds work implemented and proposed after v2.3: passability (foot=no on ordinary roads), sub-stepping, and sliding along the road (6.2.1), rebuilding the hidden map (6.4), search, preview, trains, and the geocoding relay (8.4), deterministic request generation, arrival checks, large-facility entrances, guidance, and auto-walking that continues with screens open (8.5), route creation and sharing (proposed, 8.6), home and top-down room (11.4), effect items, breadcrumbs, and inventory (11.5), bicycles (11.6), field-guide data, admin screen, and deterministic event draws (12.4), swapping carried fish and cooler tiers (12.5), birdwatching with habitat detection (12.6), moving to a new serving address and security headers (15.1.3), updated stages, and the v2.3 release record |
